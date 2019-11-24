@@ -8,19 +8,24 @@
 
 typedef struct _tile {
     char colisao;
-    char cor;
+    char corFG;
+    char corBG;
     char sprite;
 } tile;
 
 tile mapa[nMapas][altura][largura];
-char mapaAtual[altura][largura];
+tile mapaAtual[altura][largura];
 int x = 0, y = 0, z = 0;
 char input;
+
+void limpar(){
+        system("clear");
+}
 
 void printarMapa(){
     for (int i = 0; i < altura; i++){
         for (int j = 0; j < largura; j++){
-            printf("%c ", mapaAtual[i][j]);
+            printf("%c ", mapaAtual[i][j].sprite);
         }
         printf("\n");
     }
@@ -29,14 +34,14 @@ void printarMapa(){
 void carregarMapa(int n){
     for (int i = 0; i < altura; i++){
         for (int j = 0; j < largura; j++){
-            mapaAtual[i][j] = mapa[n][i][j].sprite;
+            mapaAtual[i][j] = mapa[n][i][j];
         }
     }
 }
 
 void atualizarPosicao(){
     carregarMapa(z);
-    mapaAtual[y][x] = 'P';
+    mapaAtual[y][x].sprite = 'P';
 }
 
 void criarMapa0(){
@@ -49,7 +54,7 @@ void criarMapa0(){
 void criarMapa(int n){
     for (int i = 0; i < altura; i++){
         for (int j = 0; j < largura; j++){
-            mapa[n][i][j].sprite = (char)254u;
+            mapa[n][i][j].sprite = '.';
             mapa[n][i][j].colisao = 'n';
         }
     }
@@ -87,18 +92,17 @@ void andar(){
     }
 }
 
-
-
 void update(){
     while(1){
         andar();
         atualizarPosicao();
-        system("cls");
+        limpar();
         printarMapa();
     }
 }
 
 int main(void){
+    limpar();
     criarMapa(z);
     atualizarPosicao();
     printarMapa();
