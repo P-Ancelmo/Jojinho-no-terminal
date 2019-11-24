@@ -3,7 +3,7 @@ typedef struct  {
 	char carac;
 	int colisao;// 1 - sim 0 - não
 }PONTO;
-
+//andre esteve aqui
 typedef struct
 {
   char nome [41];
