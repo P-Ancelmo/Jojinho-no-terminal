@@ -1,9 +1,10 @@
 typedef struct  {
-	char cor[9];
+	char cor_FG[12];
+	char cor_BG[12];
 	char carac;
 	int colisao;// 1 - sim 0 - não
 }PONTO;
-//andre esteve aqui
+
 typedef struct
 {
   char nome [41];
@@ -48,6 +49,7 @@ typedef struct
   int lvl;
   int x;
   int y;
+	int z;
 }PERSONAGEM;
 
 typedef struct
