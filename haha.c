@@ -220,6 +220,42 @@ void tiraP(int m)
   }
 }
 
+void animPortal(int xp, int yp){
+    int disX, disY, dis;
+    disX = xp - b;
+    disX = disX > LARGURA/2 ? disX : a - disX;
+    disY = yp - c;
+    disY = disY > ALTURA/2 ? disY  : l - disY;
+    dis = disX > disY ? disX : disY;
+    int r = dis + dis/2 - 1;
+    int fase = 0;
+    while(r != dis + dis/2)
+    { 
+        for (i = b; i < a; i++){
+            for (j = c; j < l; j++){
+                if ((i - yp)*(i - yp) + (j - xp)*(j - xp) < r*r)
+                {
+                    printf("%s%s%c "RESET,mapa[0][i][j].cor_FG, mapa[0][i][j].cor_BG,mapa[0][i][j].carac);
+                }
+                else
+                    printf("  ");
+            }
+            printf("\n");
+        }
+        if (r == 0){
+            fase = 1;
+        }
+        if (fase == 0){
+            r--;
+        }
+        else if (fase == 1){
+            r++;
+        }
+        system("sleep 0.07");
+        system("clear");
+    }
+}
+
 //pontos especiais no mapa
 void tile(int m)
 {
