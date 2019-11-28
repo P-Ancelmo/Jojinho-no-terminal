@@ -46,6 +46,65 @@ PONTO mapa[MAPAS][ALTURAMAX][LARGURAMAX];
 int i, j, k;
 int b=0, c=0, a = ALTURA, l = LARGURA;
 
+//declaração das funçoes pq vou usá-las depois
+void printarMapa(int m);
+void inicializaPortal();
+void tile(int m);
+void inicializaMapa();
+
+void animPortal(int xp, int yp, int m){
+    int disX, disY, dis;
+    disX = xp - c;
+    disX = disX > LARGURA/2 ? disX : LARGURA - disX;
+    disY = yp - b;
+    disY = disY > ALTURA/2 ? disY  : ALTURA - disY;
+    dis = disX > disY ? disX : disY;
+    int r = dis + dis/2 - 1;
+    int fase = 0;
+    while(r != dis + dis/2)
+    {
+        for (int i = b; i < a; i++){
+            for (int j = c; j < l; j++){
+                if ((i - yp)*(i - yp) + (j - xp)*(j - xp) < r*r)
+                {
+                    //printf("c%d -- l%d\n",c,l );
+
+                    tile(m);
+                    inicializaPortal();
+
+                    printf("%s%s%c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
+                    //printarMapa(m);
+                }
+                else
+                    printf("  ");
+            }
+            printf("\n");
+        }
+        //printf("r%d\nd%d\na%d\nb%d\n",r,dis,a,b);
+        if (r == 0){
+            fase = 1;
+            //printf("x%d\n", eu.x);
+            if(eu.x == portais[m].x && eu.y == portais[m].y)
+              m++;
+            else
+              if(eu.x == portais[m-1].x && eu.y == portais[m-1].y)
+                m--;
+
+
+        }
+        if (fase == 0){
+            r--;
+
+        }
+        else if (fase == 1){
+            r++;
+        }
+        system("sleep 0.07");
+        system("clear");
+    }
+}
+
+
 void procedural(int k)
 {
   int ale;
@@ -70,7 +129,7 @@ void procedural(int k)
         mapa[k][i][j].carac = '~';
         break;
       case 3:
-        printf("%d\n", ale);
+        //printf("%d\n", ale);
         stpcpy(mapa[k][i][j].cor_BG, BLINK_BG);
         mapa[k][i][j].carac = ' ';
         break;
@@ -79,9 +138,6 @@ void procedural(int k)
 
 }
 
-//declaração das funçoes pq vou usá-las depois
-void printarMapa(int m);
-void inicializaPortal();
 
 //funcâo do programa do André
 void inicializarPlayer(){
@@ -92,10 +148,10 @@ void inicializarPlayer(){
 }
 
 //funcâo do programa do André
-void printarStatus(){
+void printarStatus(int m){
   printf(MAGENTAC"HP: %d/20    "RESET, eu.estatos.hp);
   printf(MAGENTAC"XP: %.2f/200    "RESET, eu.xp);
-  printf(MAGENTAC"Mundo %d\n"RESET, eu.z+1);
+  printf(MAGENTAC"Mundo %d\n"RESET, m);
 }
 
 //função pra controlar o personagem com validações de colisão e já como parallax
@@ -172,12 +228,13 @@ void controla(int m)
   }
 }
 
-void tile(int m);
+
 //inicializa o mapa
 void inicializaMapa()
 {
   for(k = 0; k < MAPAS; k++)
   {
+    mapa[k][0][0].colisao = 1;
     for(i = 0; i < ALTURAMAX; i++)
     {
       for(j = 0; j < LARGURAMAX; j++)
@@ -218,43 +275,6 @@ void tiraP(int m)
     mapa[m][i][j].carac = '*';
     stpcpy(mapa[m][i][j].cor_FG, mapa[m][0][0].cor_FG);
   }
-}
-
-void animPortal(int xp, int yp){
-    int disX, disY, dis;
-    disX = xp - c;
-    disX = disX > LARGURA/2 ? disX : l - disX;
-    disY = yp - b;
-    disY = disY > ALTURA/2 ? disY  : a - disY;
-    dis = disX > disY ? disX : disY;
-    int r = dis + dis/2 - 1;
-    int fase = 0;
-    while(r != dis + dis/2)
-    {
-        for (i = b; i < a; i++){
-            for (j = c; j < l; j++){
-                if ((i - yp)*(i - yp) + (j - xp)*(j - xp) < r*r)
-                {
-                    printf("%s%s%c "RESET,mapa[0][i][j].cor_FG, mapa[0][i][j].cor_BG,mapa[0][i][j].carac);
-                }
-                else
-                    printf("  ");
-            }
-            printf("\n");
-        }
-        printf("%d\n%d\n", r, dis);
-        if (r == 0){
-            fase = 1;
-        }
-        if (fase == 0){
-            r--;
-        }
-        else if (fase == 1){
-            r++;
-        }
-        system("sleep 0.07");
-        system("clear");
-    }
 }
 
 //pontos especiais no mapa
@@ -301,7 +321,7 @@ void inicializaPortal()
   {
     switch(q) {
       case 0:
-        portais[q].x = 2; portais[q].y = 13;
+        portais[q].x = 19; portais[q].y = 25;
         portais[q].origem = 0; portais[q].destino = 1;
         mapa[q][portais[q].y][portais[q].x].carac = 'O';
         mapa[q][portais[q].y][portais[q].x].colisao = 0;
@@ -309,7 +329,7 @@ void inicializaPortal()
         stpcpy(mapa[q][portais[q].y][portais[q].x].cor_BG, mapa[q][0][0].cor_BG);
         break;
       case 1:
-        portais[q].x = 7; portais[q].y = 11;
+        portais[q].x = 32; portais[q].y = 13;
         portais[q].origem = 1; portais[q].destino = 2;
         mapa[q][portais[q].y][portais[q].x].carac = 'O';
         mapa[q][portais[q].y][portais[q].x].colisao = 0;
@@ -318,7 +338,7 @@ void inicializaPortal()
         stpcpy(mapa[q][portais[q-1].y][portais[q-1].x].cor_FG, AMARELO_FG);
         break;
       case 2:
-        portais[q].x = 13; portais[q].y = 7;
+        portais[q].x = 5; portais[q].y = 7;
         portais[q].origem = 2; portais[q].destino = 3;
         mapa[q][portais[q].y][portais[q].x].carac = 'O';
         mapa[q][portais[q].y][portais[q].x].colisao = 0;
@@ -343,8 +363,28 @@ void portalVai(int *q)
 {
   if(eu.x == portais[*q].x && eu.y == portais[*q].y)
   {
+
+    animPortal(eu.x,eu.y,*q);
     eu.x++;
-    (*q) = portais[*q].destino;
+    if(eu.x >= (LARGURA/2)+1)
+    {
+      if(l < LARGURAMAX)
+        l++;
+      printf("l%d\n", l);
+      if(c < LARGURAMAX && l - c > 21)
+      {
+        c++;
+        j++;
+      }
+      printf("c%d\n", c);
+      //tile(*q);
+
+    }
+    (*q)++;
+    //animPortal(eu.x,eu.y,*q);
+
+
+
     //printarMapa(portais[q].destino);
     tile(portais[*q].origem);
   }
@@ -355,8 +395,25 @@ void portalVem(int* m)
 {
   if(eu.x == portais[*m-1].x && eu.y == portais[*m-1].y)
   {
+    animPortal(eu.x,eu.y,*m);
     eu.x++;
+    if(eu.x >= (LARGURA/2)+1)
+    {
+      if(l < LARGURAMAX)
+        l++;
+      printf("l%d\n", l);
+      if(c < LARGURAMAX && l - c > 21)
+      {
+        c++;
+        j++;
+      }
+      printf("c%d\n", c);
+      tile(*m);
+
+    }
+
     (*m) = portais[(*m)-1].origem;
+
     tile(*m);
     return;
   }
@@ -374,28 +431,28 @@ void printarMapa(int m) {
         switch (m) {
           case 0:
             portalVai(&m);
-            printf("%s%s %c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
+            printf("%s%s%c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
             break;
           case 1:
             portalVai(&m);
             portalVem(&m);
-            printf("%s%s %c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
+            printf("%s%s%c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
             break;
           case 2:
             portalVai(&m);
             portalVem(&m);
-            printf("%s%s %c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
+            printf("%s%s%c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
             break;
           case 3:
             portalVem(&m);
-            printf("%s%s %c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
+            printf("%s%s%c "RESET,mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG,mapa[m][i][j].carac);
             break;
         }
         tiraP(m);
       }
       printf("\n" );
     }
-    printarStatus();
+    printarStatus(m+1);
     controla(m);
 
     //a função inicializa mapa é chamada por causa do P que é printado, para voltar a ser *
@@ -413,5 +470,7 @@ int main()
   inicializarPlayer();
   inicializaMapa();
   tile(0);
+  //animPortal(eu.x, eu.y, 0);
+  system("clear");
   printarMapa(0);
 }
