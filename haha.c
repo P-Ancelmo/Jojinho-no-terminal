@@ -222,15 +222,15 @@ void tiraP(int m)
 
 void animPortal(int xp, int yp){
     int disX, disY, dis;
-    disX = xp - b;
-    disX = disX > LARGURA/2 ? disX : a - disX;
-    disY = yp - c;
-    disY = disY > ALTURA/2 ? disY  : l - disY;
+    disX = xp - c;
+    disX = disX > LARGURA/2 ? disX : l - disX;
+    disY = yp - b;
+    disY = disY > ALTURA/2 ? disY  : a - disY;
     dis = disX > disY ? disX : disY;
     int r = dis + dis/2 - 1;
     int fase = 0;
     while(r != dis + dis/2)
-    { 
+    {
         for (i = b; i < a; i++){
             for (j = c; j < l; j++){
                 if ((i - yp)*(i - yp) + (j - xp)*(j - xp) < r*r)
@@ -242,6 +242,7 @@ void animPortal(int xp, int yp){
             }
             printf("\n");
         }
+        printf("%d\n%d\n", r, dis);
         if (r == 0){
             fase = 1;
         }
