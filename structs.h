@@ -15,9 +15,17 @@ typedef struct
   int tipo; //mob - miniBoss - Boss
   int ataque;
   int defesa;
+	int x;
+	int y;
+	int z;
 }INIMIGO;
 
 // que tal tirar defesa?
+
+typedef struct{
+	int x;
+	int y;
+} POSICAO;
 
 typedef struct
 {
