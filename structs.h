@@ -62,6 +62,7 @@ typedef struct
 
 typedef struct
 {
+	char nome[41];
   int tipo; //se são de ataque ou defesa (0 ou 1)
   int elemento; //qual elemento da magia (0-3)
   int lvl; //entre 1 e 3
