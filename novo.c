@@ -117,7 +117,7 @@ void spawnInimigo(int mundo){
   if (quantInimigos[mundo] < 10) {
     srand(clock());
     int chance = rand() % 100;
-    if (chance < 15){ //5% de chance
+    if (chance < 4){ //5% de chance
       int si = rand() % ALTURA + b;
       int sj = rand() % LARGURA + c;
       if (mapa[mundo][si][sj].colisao == 0){
@@ -410,7 +410,8 @@ void tiraP(int m)
 void tile(int m)
 {
   mapa[m][eu.y][eu.x].carac = 'P';
-  mapa[m][eu.y][eu.x].colisao = 1;
+  if (mapa[m][eu.y][eu.x].colisao != 2) 
+    mapa[m][eu.y][eu.x].colisao = 3;
   stpcpy(mapa[m][eu.y][eu.x].cor_FG, RESET);
 
   spawnInimigo(m);
@@ -489,7 +490,7 @@ void portalVai(int *q)
     //animPortal(eu.x,eu.y,*q);
 
     mapa[*q][eu.y][eu.x].carac = 'P';
-    mapa[*q][eu.y][eu.x].colisao = 1;
+    mapa[*q][eu.y][eu.x].colisao = 3;
     stpcpy(mapa[*q][eu.y][eu.x].cor_FG, RESET);
 
     //printarMapa(portais[q].destino);
@@ -523,7 +524,7 @@ void portalVem(int* m)
     (*m) = portais[(*m)-1].origem;
 
     mapa[*m][eu.y][eu.x].carac = 'P';
-    mapa[*m][eu.y][eu.x].colisao = 1;
+    mapa[*m][eu.y][eu.x].colisao = 3;
     stpcpy(mapa[*m][eu.y][eu.x].cor_FG, RESET);;
     return;
   }
