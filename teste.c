@@ -3,8 +3,8 @@
 #include "structs.h"
 MAGIA ataques[3][4];
 MAGIA defesas[3][4];
-int esc;
-PERSONAGEM grupo;
+int esc, esco[3];
+PERSONAGEM grupo[3];
 
 void iniciaAtaques()
 {
@@ -25,7 +25,7 @@ void iniciaAtaques()
   defesas[2][0].lvl = 1;
 }
 
-int atk(int i)
+int atk(int i, int mob)
 {
   printf("\nAtaques:\n");
   for(int j = 0; j < 4; j++)
@@ -37,6 +37,7 @@ int atk(int i)
       printf("\n");
   }
   scanf("%d", &esc);
+  esco[i] = esc;
   return esc;
 }
 
@@ -54,12 +55,15 @@ void combate()
 {
   while(grupo.estatos.hp != 0)
   {
+
     printf("Guerreiro:\n1 - atk  2 - def\n");
     scanf("%d", &esc);
     switch (esc)
     {
       case 1:
         atk(0);
+        if(inim.hp == 0)
+          return
         break;
       case 2:
         def(0);
