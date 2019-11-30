@@ -51,6 +51,74 @@ void printarMapa(int m);
 void inicializaPortal();
 void tile(int m);
 void inicializaMapa();
+void procedural(int k);
+
+PONTO pGrama = {.cor_FG = VERDE_FG, .cor_BG = VERDE_CLARO_BG, .carac = '^', .colisao = 0};
+//PONTO pGrama2 = {.cor_FG = VERDE_FG, .cor_BG = VERDE_CLARO_BG, .carac = ' ', .colisao = 0};
+PONTO pArvore = {.cor_FG = CINZA_CLARO_FG, .cor_BG = VERDE_BG, .carac = '|', .colisao = 1};
+PONTO pAgua = {.cor_FG = AZUL_FG, .cor_BG = AZUL_CLARO_BG, .carac = '~', .colisao = 1};
+//PONTO pMadeira = {.cor_FG = CINZA_CLARO_FG, .cor_BG = AMARELO_BG, .carac = '/', .colisao = 0};
+/*
+PONTO pTerra;
+PONTO pFogo;
+PONTO pMontanha;
+PONTO pGelo;
+PONTO pChao;
+PONTO pBuraco; */
+
+
+
+
+void detalhesMapa(int k){
+  int p;
+    switch(k) {
+      case 0:
+        for (p = 0; p < ALTURAMAX; p++){
+          mapa[k][p][18] = pAgua;
+          mapa[k][p][19] = pAgua;
+          mapa[k][p][20] = pAgua;
+        }
+        for (p = 18; p <= 20; p++){
+          mapa[k][7][p] = pGrama;
+        }
+    }
+}
+
+
+void inicializaMapa()
+{
+  for(k = 0; k < MAPAS; k++)
+  {
+    for(i = 0; i < ALTURAMAX; i++)
+    {
+      for(j = 0; j < LARGURAMAX; j++)
+      {
+        inicializaPortal();
+        switch (k) {
+          case 0:
+            mapa[k][i][j] = pGrama;
+            break;
+          case 1:
+            stpcpy(mapa[k][i][j].cor_FG, PRETO_FG);
+            stpcpy(mapa[k][i][j].cor_BG, VERMELHO_BG);
+            break;
+          case 2:
+            stpcpy(mapa[k][i][j].cor_FG, PRETO_FG);
+            stpcpy(mapa[k][i][j].cor_BG, CIANO_BG);
+            break;
+          case 3:
+            stpcpy(mapa[k][i][j].cor_FG, PRETO_FG);
+            stpcpy(mapa[k][i][j].cor_BG, CINZA_CLARO_BG);
+            break;
+        }
+      procedural(k);
+      }
+    detalhesMapa(k);
+    }
+  }
+}
+
+
 
 void animPortal(int xp, int yp, int m){
     int disX, disY, dis;
@@ -174,8 +242,11 @@ void andarInimigo(int mundo, int index, int tentativas){
 
 void atualizarInimigo(int mundo){
     for (i = 0; i < quantInimigos[mundo]; i++){
-        mapa[mundo][inimigo[mundo][i].y][inimigo[mundo][i].x].carac = ' ';
-        mapa[mundo][inimigo[mundo][i].y][inimigo[mundo][i].x].colisao = 0;
+        switch(mundo){
+          case 0:
+            mapa[mundo][inimigo[mundo][i].y][inimigo[mundo][i].x] = pGrama;
+            break;
+        }
         andarInimigo(mundo, i, 0);
         mapa[mundo][inimigo[mundo][i].y][inimigo[mundo][i].x].carac = 'X';
         mapa[mundo][inimigo[mundo][i].y][inimigo[mundo][i].x].colisao = 1;
@@ -186,36 +257,30 @@ void atualizarInimigo(int mundo){
 void procedural(int k)
 {
   int ale;
-
-  srand(clock());
+  //srand(clock());
   ale = rand()%100;
-
-  if(ale > 0 && ale < 10 && portais[k].x != j && portais[k].y != i && eu.x != j && eu.y != i && portais[k].x++ != j && portais[k].y++ != i && portais[k-1].x++ != j && portais[k-1].y++ != i)
+  if (portais[k].x != j && portais[k].y != i && eu.x != j && eu.y != i && portais[k].x++ != j && portais[k].y++ != i && portais[k-1].x++ != j && portais[k-1].y++ != i)
   {
-    mapa[k][i][j].colisao = 1;
     switch (k) {
       case 0:
-        stpcpy(mapa[k][i][j].cor_BG, VERDE_CLARO_BG);
-        mapa[k][i][j].carac = '|';
-        break;
-      case 1:
-        stpcpy(mapa[k][i][j].cor_BG, VERMELHO_CLARO_BG);
-        mapa[k][i][j].carac = '^';
-        break;
-      case 2:
-        stpcpy(mapa[k][i][j].cor_BG, AZUL_CLARO_BG);
-        mapa[k][i][j].carac = '~';
-        break;
-      case 3:
-        //printf("%d\n", ale);
-        stpcpy(mapa[k][i][j].cor_BG, BLINK_BG);
-        mapa[k][i][j].carac = ' ';
-        break;
+          if (i < 4 || i > ALTURAMAX - 4 || j < 4 || j > LARGURAMAX - 4){
+            if (ale < 40)
+                mapa[k][i][j] = pArvore;
+          }
+          if (j > LARGURAMAX - 5){
+            if (ale < 75)
+                mapa[k][i][j] = pArvore;
+          }
+          if (j > LARGURAMAX - 10){
+            if (ale < 40)
+                mapa[k][i][j] = pArvore;
+          }
+          if (ale < 10)
+            mapa[k][i][j] = pArvore;
+          break;
+
     }
   }
-
-
-
 }
 
 
@@ -315,55 +380,17 @@ void controla(int m)
 
 
 //inicializa o mapa
-void inicializaMapa()
-{
-  for(k = 0; k < MAPAS; k++)
-  {
-    mapa[k][0][0].colisao = 1;
-    for(i = 0; i < ALTURAMAX; i++)
-    {
-      for(j = 0; j < LARGURAMAX; j++)
-      {
-        mapa[k][i][j].carac = ' ';
-        inicializaPortal();
-        switch (k) {
-          case 0:
-            stpcpy(mapa[k][i][j].cor_FG, PRETO_FG);
-            stpcpy(mapa[k][i][j].cor_BG, VERDE_BG);
-            procedural(k);
 
-            break;
-          case 1:
-            stpcpy(mapa[k][i][j].cor_FG, PRETO_FG);
-            stpcpy(mapa[k][i][j].cor_BG, VERMELHO_BG);
-            procedural(k);
-
-            break;
-          case 2:
-            stpcpy(mapa[k][i][j].cor_FG, PRETO_FG);
-            stpcpy(mapa[k][i][j].cor_BG, CIANO_BG);
-            procedural(k);
-
-            break;
-          case 3:
-            stpcpy(mapa[k][i][j].cor_FG, PRETO_FG);
-            stpcpy(mapa[k][i][j].cor_BG, CINZA_CLARO_BG);
-            procedural(k);
-
-            break;
-        }
-      }
-    }
-  }
-}
 
 void tiraP(int m)
 {
   if(eu.x == j && eu.y == i)
   {
-    mapa[m][i][j].carac = ' ';
-    mapa[m][i][j].colisao = 0;
-    stpcpy(mapa[m][i][j].cor_FG, mapa[m][0][0].cor_FG);
+    switch (m){
+      case 0:
+        mapa[m][i][j] = pGrama;
+        break;
+    }
   }
 }
 
@@ -410,7 +437,7 @@ void tiraP(int m)
 void tile(int m)
 {
   mapa[m][eu.y][eu.x].carac = 'P';
-  if (mapa[m][eu.y][eu.x].colisao != 2) 
+  if (mapa[m][eu.y][eu.x].colisao != 2)
     mapa[m][eu.y][eu.x].colisao = 3;
   stpcpy(mapa[m][eu.y][eu.x].cor_FG, RESET);
 
