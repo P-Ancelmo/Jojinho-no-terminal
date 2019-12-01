@@ -8,6 +8,7 @@
 Como agora temos 2 cores pra cada ponto, background e foreground, precisamos dobrar o número de
 códigos referentes as cores.
 */
+/*
 #define PRETO_INTENSO_BG "\e[0;100m"
 #define BLINK_BG "\x1b[5m"
 #define DEFAULT_BG "\x1b[49m"
@@ -51,6 +52,7 @@ char direcao, lixo[40];
 PONTO mapa[MAPAS][ALTURAMAX][LARGURAMAX];
 int i, j, k;
 int b=0, c=0, a = ALTURA, l = LARGURA;
+*/
 INIMIGO inimigo[MAPAS][10]; int quantInimigos[MAPAS] = {0, 0, 0, 0};
 //declaração das funçoes pq vou usá-las depois
 void printarMapa(int m);
