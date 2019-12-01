@@ -1,3 +1,5 @@
+
+
 typedef struct  {
 	char cor_FG[12];
 	char cor_BG[12];
@@ -8,6 +10,7 @@ typedef struct  {
 typedef struct
 {
   char nome [41];
+	int classe; // 1 - ENT 2 - Draconato 3 - Sereia 4 - Dragão 5 -elementais 6- bruxo
   double hptemp; //com redução de dano em double, hp precisa ser também
   int hp;
   int drop;
@@ -32,9 +35,11 @@ typedef struct
   int esquivar; // Chance de desviar de um ataque
   int duplo; // Chance de aplicar um ataque duplo
   int crit; // Chance de aplicar um ataque crítico
-  int defesa; // Fórmula: Dano recebido = Defesa / Defesa + 5
+	float ataque;
+  float defesa; // Fórmula: Dano recebido = Defesa / Defesa + 5
   int defesatemp; // Fórmula: Dano recebido = defesatemp / defesatemp + 4 (Para lutas)
   int hp; //Sugestão: 20 hp inicial
+	int hpmax;
   int hptemp;
 }STATS;
 
@@ -52,6 +57,8 @@ typedef struct
   char nome [21];
   STATS estatos;
   INVENTARIO inventario;
+	float ataque;
+	float defesa;
  	float xp;
   int xpmax;
   int lvl;
@@ -63,8 +70,9 @@ typedef struct
 typedef struct
 {
 	char nome[41];
-  int tipo; //se são de ataque ou defesa (0 ou 1)
-  int elemento; //qual elemento da magia (0-3)
+
+	int tipo;//
+	int elemento; //qual elemento da magia (0-3)
   int lvl; //entre 1 e 3
   int vantagem; //contra quem possui bônus
   int desvantagem; //contra quem possui redução
@@ -137,3 +145,4 @@ vect[4].crit = 25;
 vect[4].duplo = 0;
 vect[4].lore = "Uma vez, perguntaram a um sábio: 'Qual é o número mais poderoso?' E ele respondeu: '2.6'.";
 */
+//#include "structs.h"

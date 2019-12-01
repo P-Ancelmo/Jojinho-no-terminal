@@ -81,7 +81,21 @@ PONTO pChao;
 PONTO pBuraco; */
 
 
+void inicializaGrupo()
+{
+  stpcpy(grupo[0].nome, "Curandeiro");
+  stpcpy(grupo[1].nome, "Guerreiro");
+  stpcpy(grupo[2].nome, "Mago");
+  grupo[0].defesa = 7;
+  grupo[1].ataque = 8;
+  grupo[1].defesa = 19;
+  grupo[2].ataque = 15;
+  grupo[2].defesa = 7;
+  for(int i = 0; i < 3; i++)
+  {
 
+  }
+}
 
 void detalhesMapa(int k){
   int p; int q;
@@ -393,7 +407,7 @@ void procedural(int k)
       case 2:
           if(0)
             mapa[k][i][j] = pFogo;
-            break;
+          break;
       case 3:
             if (ale < 15)
                 mapa[k][i][j] = pBuraco;
