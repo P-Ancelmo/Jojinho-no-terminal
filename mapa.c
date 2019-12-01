@@ -261,7 +261,7 @@ void animPortal(int xp, int yp, int m){
             r++;
         }
         system("sleep 0.07");
-        system("cls");
+        system("clear");
     }
 }
 
@@ -725,8 +725,8 @@ void printarMapa(int m) {
     //inicializaMapa();
     tile(m);
     inicializaPortal();
-    system("cls");
-    system("cls");
+    system("clear");
+    system("clear");
   }
 }
 
@@ -736,6 +736,6 @@ int main()
   inicializaMapa();
   tile(0);
   //animPortal(eu.x, eu.y, 0);
-  system("cls");
+  system("clear");
   printarMapa(0);
 }
