@@ -102,7 +102,7 @@ void detalhesMapa(int k){
             mapa[k][25][p] = pGrama;
             mapa[k][26][p] = pGrama;
         }
-
+        break;
       case 1:
         for (p = 16; p < 27; p++){ // m = 21
             for (q = ALTURAMAX - 11; q < ALTURAMAX; q++) // m = -6
