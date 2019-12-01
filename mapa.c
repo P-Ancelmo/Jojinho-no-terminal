@@ -1,4 +1,4 @@
-#include "structs.h"
+#include "combate.c"
 //#include "funcoes.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -748,6 +748,7 @@ int main()
 {
   inicializarPlayer();
   inicializaMapa();
+  inicializaGrupo();
   tile(0);
   //animPortal(eu.x, eu.y, 0);
   system("clear");
