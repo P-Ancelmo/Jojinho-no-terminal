@@ -33,12 +33,12 @@ códigos referentes as cores.
 #define VERDE_CLARO_FG "\x1b[92m"
 #define VERDE_CLARO_BG "\x1b[102m"
 #define VERDE_BG "\x1b[42m"
-#define MARROM_BG "\033[48;5;94m" // BG \033[48;5;<>m FG \033[38;5;<>m;
-#define TERRA_FG "\033[38;5;130m"
+ // BG \033[48;5;<>m FG \033[38;5;<>m;
+
 #define LARANJA_FG "\033[38;5;202m"
 #define VERMELHO2_BG "\033[48;5;160m"
 #define BRANCO_FG "\033[38;5;15m"
-#define AZUL2_BG "\033[48;5;68m"
+
 #define RESET "\x1b[0m"
 #define PROBABILIDADE 20
 #define ALTURA 21
@@ -53,6 +53,11 @@ PONTO mapa[MAPAS][ALTURAMAX][LARGURAMAX];
 int i, j, k;
 int b=0, c=0, a = ALTURA, l = LARGURA;
 */
+#define AZUL2_BG "\033[48;5;68m"
+#define TERRA_FG "\033[38;5;130m"
+#define MARROM_BG "\033[48;5;94m"
+#define LARANJA_FG "\033[38;5;202m"
+#define VERMELHO2_BG "\033[48;5;160m"
 INIMIGO inimigo[MAPAS][10]; int quantInimigos[MAPAS] = {0, 0, 0, 0};
 //declaração das funçoes pq vou usá-las depois
 void printarMapa(int m);
