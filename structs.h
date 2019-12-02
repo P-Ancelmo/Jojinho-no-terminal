@@ -1,4 +1,32 @@
+typedef struct
+{
+  char nome[41];
+  int raridade; // 0 = Normal (Verde) // 1 = Mágico (Azul) // 2 = Épico (Roxo) // 3 = Lendário (Dourado)
+  int dano; // + Dano
+  int crit; // + Chance de crítico
+  int duplo; // + Chance de ataque duplo
+  char lore[150];
+}VARINHA;
 
+typedef struct
+{
+  char nome[41];
+  int raridade; // 0 = Normal (Verde) // 1 = Mágico (Azul) // 2 = Épico (Roxo) // 3 = Lendário (Dourado)
+  int dano; // + Dano
+  int crit; // + Chance de crítico
+  int duplo; // + Chance de ataque duplo
+  char lore[150];
+}ESPADA;
+
+typedef struct
+{
+  char nome[41];
+  int raridade; // 0 = Normal (Verde) // 1 = Mágico (Azul) // 2 = Épico (Roxo) // 3 = Lendário (Dourado)
+  float cura;
+  float buff;
+  float vida;
+  char lore[150];
+}ARTEFATO;
 
 typedef struct  {
 	char cor_FG[12];
@@ -13,15 +41,15 @@ typedef struct
 	int classe; // 1 - ENT 2 - Draconato 3 - Sereia 4 - Dragão 5 -elementais 6- bruxo
   double hptemp; //com redução de dano em double, hp precisa ser também
   int hp;
-	int vivo;
   int drop;
   char elemento;
-  int tipo; //0mob - 1miniBoss - 2Boss
+  int tipo; //mob - miniBoss - Boss
   int ataque;
   int defesa;
 	int x;
 	int y;
 	int z;
+	int vivo;
 }INIMIGO;
 
 // que tal tirar defesa?
@@ -40,8 +68,10 @@ typedef struct
   float defesa; // Fórmula: Dano recebido = Defesa / Defesa + 5
   int defesatemp; // Fórmula: Dano recebido = defesatemp / defesatemp + 4 (Para lutas)
   int hp; //Sugestão: 20 hp inicial
-	int hpmax;
+  int hpmax;
   int hptemp;
+  int cura;
+  int buff;
 }STATS;
 
 // Idea: Defesatemp decai um ponto até se igular a defesa.
@@ -65,7 +95,6 @@ typedef struct
   int lvl;
   int x;
   int y;
-	int z;
 }PERSONAGEM;
 
 typedef struct
@@ -88,25 +117,6 @@ typedef struct
   int origem; //de qual mundo parte (0-3)
 }PORTAL;
 
-typedef struct
-{
-  char nome [41];
-  int raridade; // 1 = Normal (Azul) // 2 = Épico (Roxo) // 3 = Lendário (Dourado)
-  int hp; // + Vida
-  int defesa; // + Defesa
-  int esquivar; // + Chance de desviar de um ataque
-  char lore[150];
-}TUNICA;
-
-typedef struct
-{
-  char nome[41];
-  int raridade; // 0 = Normal (Verde) // 1 = Mágico (Azul) // 2 = Épico (Roxo) // 3 = Lendário (Dourado)
-  int dano; // + Dano
-  int crit; // + Chance de crítico
-  int duplo; // + Chance de ataque duplo
-  char lore[150];
-}VARINHA;
 
 // TODOS OS ITENS
 /*
