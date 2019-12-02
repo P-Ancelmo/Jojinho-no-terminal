@@ -1,5 +1,35 @@
 typedef struct
 {
+  char nome[41];
+  int raridade; // 0 = Normal (Verde) // 1 = Mágico (Azul) // 2 = Épico (Roxo) // 3 = Lendário (Dourado)
+  int dano; // + Dano
+  int crit; // + Chance de crítico
+  int duplo; // + Chance de ataque duplo
+  char lore[150];
+}VARINHA;
+
+typedef struct
+{
+  char nome[41];
+  int raridade; // 0 = Normal (Verde) // 1 = Mágico (Azul) // 2 = Épico (Roxo) // 3 = Lendário (Dourado)
+  int dano; // + Dano
+  int crit; // + Chance de crítico
+  int duplo; // + Chance de ataque duplo
+  char lore[150];
+}ESPADA;
+
+typedef struct
+{
+  char nome[41];
+  int raridade; // 0 = Normal (Verde) // 1 = Mágico (Azul) // 2 = Épico (Roxo) // 3 = Lendário (Dourado)
+  float cura;
+  float buff;
+  float vida;
+  char lore[150];
+}ARTEFATO;
+
+typedef struct
+{
   char nome [41]
   double hptemp; //com redução de dano em double, hp precisa ser também
   int hp;
