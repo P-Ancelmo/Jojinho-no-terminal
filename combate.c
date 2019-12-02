@@ -9,6 +9,10 @@
 double proteger(INIMIGO inimigo);
 double defender(INIMIGO inimigo);
 
+VARINHA varinhas[4];
+ESPADA espadas[4];
+ARTEFATO artefatos[4];
+
 void limparBuffer(){
     int nan;
     while((nan = getchar()) != EOF && nan != '\n' );
@@ -476,6 +480,103 @@ void upa(int i)
     defesas[i][grupo[i].lvl-1].lvl = grupo[i].lvl;
 }
 
+void inicializaItens()
+{
+
+
+  //VARINHAS
+  stpcpy(varinhas[0].nome , "Galho Regular");
+  varinhas[0].raridade = 0;
+  varinhas[0].dano = 0;
+  varinhas[0].crit = 0;
+  varinhas[0].duplo = 0;
+  stpcpy(varinhas[0].lore , "Aclamado pelos arcanos por sua leveza, trata-se de um artefato extraordinariamente normal.");
+
+  stpcpy(varinhas[1].nome , "Varinha dos Ventos Uivantes");
+  varinhas[1].raridade = 1;
+  varinhas[1].dano = 2;
+  varinhas[1].crit = 20;
+  varinhas[1].duplo = 15;
+  stpcpy(varinhas[1].lore , "O portador promove um agitadíssimo baile entre as árvores, que chacoalham freneticamente.");
+
+  stpcpy(varinhas[2].nome , "Varinha de Carmichael");
+  varinhas[2].raridade = 2;
+  varinhas[2].dano = 0;
+  varinhas[2].crit = 56.1;
+  varinhas[2].duplo = 11.05;
+  stpcpy(varinhas[2].lore , "Ainda é possível ouvir os gritos de Fermat ecoando pela aura dessa arma.");
+
+  stpcpy(varinhas[3].nome , "Cetro de Ritchie");
+  varinhas[3].raridade = 3;
+  varinhas[3].dano = 10;
+  varinhas[3].crit = 45;
+  varinhas[3].duplo = 20;
+  stpcpy(varinhas[3].lore , "Emana uma energia nunca antes sentida.");
+
+  //ESPADAS
+  stpcpy(espadas[0].nome , "Espada de Eucalipto");
+  espadas[0].raridade = 0;
+  espadas[0].dano = 0;
+  espadas[0].crit = 5;
+  espadas[0].duplo = 5;
+  stpcpy(espadas[0].lore , "Feita sob medida, 100% pura e sem nenhum encantamento.");
+
+  stpcpy(espadas[1].nome , "Cimitarra de Silverfield");
+  espadas[1].raridade = 1;
+  espadas[1].dano = 4;
+  espadas[1].crit = 15;
+  espadas[1].duplo = 7.5;
+  stpcpy(espadas[1].lore , "Proveniente das florestas coníferas, possui adornos do raríssimo integrálio.");
+
+  stpcpy(espadas[2].nome , "Claymore de Euclides");
+  espadas[2].raridade = 2;
+  espadas[2].dano = 4;
+  espadas[2].crit = 25;
+  espadas[2].duplo = 11.5;
+  stpcpy(espadas[2].lore , "Uma vez, perguntaram a um sábio: 'Qual é o número mais poderoso?' E ele respondeu: '2.6'.");
+
+  stpcpy(espadas[3].nome , "Katana da Recursão");
+  espadas[3].raridade = 3;
+  espadas[3].dano = 8;
+  espadas[3].crit = 18.5;
+  espadas[3].duplo = 100;
+  stpcpy(espadas[3].lore , "Banzai ! Banzai !");
+
+  //ARTEFATOS
+  stpcpy(artefatos[0].nome , "Gnômon de Vidro");
+  artefatos[0].raridade = 0;
+  artefatos[0].cura = 0;
+  artefatos[0].buff = 0;
+  artefatos[0].vida = 0;
+  stpcpy(artefatos[0].lore , "Equipamento sagrado, abençoado pelo Sol.");
+
+  stpcpy(artefatos[1].nome, "Prisma Cristalino");
+  artefatos[1].raridade = 1;
+  artefatos[1].cura = 1.2;
+  artefatos[1].buff = 1.1;
+  artefatos[1].vida = 1.05;
+  stpcpy(artefatos[1].lore , "Seu formato único permite a concretização da ruína de qualquer desafortunado.");
+
+  stpcpy(artefatos[2].nome , "Orbe Abeliano");
+  artefatos[2].raridade = 2;
+  artefatos[2].cura = 1.35;
+  artefatos[2].buff = 1.4;
+  artefatos[2].vida = 1.45;
+  stpcpy(artefatos[2].lore , "Forjado por forças entrópicas, causa a desordem nos campos de batalha.");
+
+  stpcpy(artefatos[3].nome , "Hipercubo de Karnaugh");
+  artefatos[3].raridade = 3;
+  artefatos[3].cura = 1.6;
+  artefatos[3].buff = 1.8;
+  artefatos[3].vida = 1.65;
+  stpcpy(artefatos[3].lore , "Armazena conhecimento aplicado de uma antiga civilização");
+}
+
+void loot()
+{
+
+}
+
 void combate(INIMIGO inimigo)
 {
   int deftemp[3],atktemp[3],i;
@@ -486,7 +587,7 @@ void combate(INIMIGO inimigo)
   }
   while(grupo[1].estatos.hp > 0 || grupo[2].estatos.hp > 0)
   {
-    for(int i = 0; i <3; i++)
+    for(i = 0; i <3; i++)
     {
       escolha[i][0] = 0;
       escolha[i][1]=0;
@@ -505,31 +606,47 @@ void combate(INIMIGO inimigo)
       atkInimigo(inimigo);
 
     }
+
+    if(grupo[i].xp >=  grupo[i].xpmax)
+      printf("\nParabens, o grupo subiu de level \n");
+
     if(inimigo.hp <= 0)
     {
       printf("Você venceu a luta\n");
+      if(inimigo.tipo == 0)
+        printf("\nO grupo ganhou 60 de XP\n");
+      if(inimigo.tipo == 1)
+        printf("\nO grupo ganhou 90 de XP\n");
+      if(inimigo.tipo == 2)
+        printf("\nO grupo ganhou 120 de XP\n");
+
+
       for(int i = 0; i < 3; i++)
       {
         if(inimigo.tipo == 0)
         {
-          printf("\nO %s ganhou 60 de XP\n",grupo[i].nome);
+          //printf("\nO %s ganhou 60 de XP\n",grupo[i].nome);
           grupo[i].xp+=60;
         }
         if(inimigo.tipo == 1)
         {
-          printf("\nO %s ganhou 90 de XP\n",grupo[i].nome);
+          //printf("\nO %s ganhou 90 de XP\n",grupo[i].nome);
           grupo[i].xp+=90;
         }
         if(inimigo.tipo == 2)
         {
-          printf("\nO %s ganhou 120 de XP\n", grupo[i].nome);
+          //printf("\nO %s ganhou 120 de XP\n", grupo[i].nome);
           grupo[i].xp+=120;
         }
 
         if(grupo[i].xp >=  grupo[i].xpmax)
         {
-          printf("\nParabens, o %s subiu de level\n", grupo[i].nome);
+
           grupo[i].lvl++;
+          if(i == 0)
+          {
+            printf("Parabens, o grupo subiu de level. Novo level %d\n",grupo[i].lvl);
+          }
           grupo[i].xp -= grupo[i].xpmax;
           grupo[i].xpmax+=20;
           grupo[i].estatos.ataque+=grupo[i].estatos.ataque*0.2;
