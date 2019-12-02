@@ -84,6 +84,25 @@ PONTO pBau0 = {.cor_FG = BRANCO_FG, .cor_BG = VERDE_CLARO_BG, .carac = '&', .col
 PONTO pBau1 = {.cor_FG = BRANCO_FG, .cor_BG = MARROM_BG, .carac = '&', .colisao = 4};
 PONTO pBau2 = {.cor_FG = BRANCO_FG, .cor_BG = AZUL2_BG, .carac = '&', .colisao = 4};
 
+
+void inicializaGrupo()
+{
+  stpcpy(grupo[0].nome, "Curandeiro");
+  stpcpy(grupo[1].nome, "Guerreiro");
+  stpcpy(grupo[2].nome, "Mago");
+  grupo[0].defesa = 7;
+  grupo[1].ataque = 8;
+  grupo[1].defesa = 19;
+  grupo[2].ataque = 15;
+  grupo[2].defesa = 7;
+  for(int i = 0; i < 3; i++)
+  {
+      grupo[i].estatos.hp = 20;
+      grupo[i].lvl = 2;
+  }
+}
+
+
 void detalhesMapa(int k){
   int p; int q;
     switch(k) {
@@ -272,12 +291,19 @@ void animPortal(int xp, int yp, int m){
         system("sleep 0.07");
         system("cls");
     }
+    gets(lixo);
 }
 
 void criarInimigo(int zi, int xi, int yi){
     if (quantInimigos[zi] < 10){
     inimigos[zi][quantInimigos[zi]].x = xi;     //x inicial
     inimigos[zi][quantInimigos[zi]].y = yi;     //y inicial
+    inimigos[zi][quantInimigos[zi]].elemento = zi;
+    inimigos[zi][quantInimigos[zi]].tipo = 0;
+    inimigos[zi][quantInimigos[zi]].classe = 5;
+    inimigos[zi][quantInimigos[zi]].classe = 5;
+    inimigos[zi][quantInimigos[zi]].ataque = 10 + 3 * zi;
+    inimigos[zi][quantInimigos[zi]].defesa = 10 + 3 * zi;
     quantInimigos[zi]++;
   }
 }
@@ -451,7 +477,7 @@ void printarStatus(int m){
   printf(MAGENTAC"Mundo %d\n"RESET, m);
 }
 
-void andarBau(int m){
+void checarBau(int m){
     if (mapa[m][eu.y][eu.x].colisao == 4){
         //pegarBau(m);
         bau = m+1;
@@ -476,7 +502,7 @@ void controla(int m)
       if(eu.x != 0 && mapa[m][eu.y][eu.x-1].colisao != 1)
       {
         eu.x--;
-        andarBau(m);
+        checarBau(m);
         //printf("x%d\n", eu.x);
         if(eu.x < (LARGURAMAX -(LARGURA/2))-1)
         {
@@ -493,7 +519,7 @@ void controla(int m)
       if(eu.x != LARGURAMAX-1 && mapa[m][eu.y][eu.x+1].colisao !=1)
       {
         eu.x++;
-        andarBau(m);
+        checarBau(m);
         //printf("x%d\n", eu.x);
         if(eu.x >= (LARGURA/2)+1)
         {
@@ -510,7 +536,7 @@ void controla(int m)
       if(eu.y != 0 && mapa[m][eu.y-1][eu.x].colisao !=1)
       {
         eu.y--;
-        andarBau(m);
+        checarBau(m);
         //printf("y%d\n", eu.y);
         if(eu.y < (ALTURAMAX-(ALTURA/2))-1)
         {
@@ -527,7 +553,7 @@ void controla(int m)
     if(eu.y != ALTURAMAX-1 && mapa[m][eu.y+1][eu.x].colisao !=1)
     {
       eu.y++;
-      andarBau(m);
+      checarBau(m);
       //printf("y%d\n", eu.y);
       if(eu.y >= (ALTURA/2)+1)
       {
@@ -738,6 +764,28 @@ void portalVem(int* m)
 void printPos(){
     printf("\nx = %d, y = %d\n", eu.x, eu.y);
 }
+/*
+int checarCombate(int m){
+    if (mapa[m][eu.y-1][eu.x-1].carac == 'X' || mapa[m][eu.y-1][eu.x].carac == 'X' || mapa[m][eu.y-1][eu.x+1].carac == 'X'
+        || mapa[m][eu.y][eu.x-1].carac == 'X' || mapa[m][eu.y][eu.x].carac == 'X' || mapa[m][eu.y][eu.x+1].carac == 'X'
+        || mapa[m][eu.y+1][eu.x-1].carac == 'X' || mapa[m][eu.y+1][eu.x].carac == 'X' || mapa[m][eu.y+1][eu.x+1].carac == 'X')
+        {
+            return 1;
+        }
+    else return 0;
+} */
+
+void checarCombate(int m){
+    int v;
+    for (v = 0; v < quantInimigos[m]; v++){
+        if (eu.x == inimigos[m][v].x || eu.x - 1 == inimigos[m][v].x || eu.x + 1 == inimigos[m][v].x){
+            if (eu.y == inimigos[m][v].y || eu.y - 1 == inimigos[m][v].y || eu.y + 1 == inimigos[m][v].y){
+                combate(inimigos[m][v]);
+                printf("\nCombate Iniciado com inimigo [%d][%d]", m, v);
+            }
+        }
+    }
+}
 
 //printa o mapa, dentro dele são chamadas as funções
 void printarMapa(int m) {
@@ -775,6 +823,7 @@ void printarMapa(int m) {
     printarStatus(m+1);
     printarBau();
     printPos();
+    checarCombate(m);
     controla(m);
     //tiraI(m);
     //a função inicializa mapa é chamada por causa do P que é printado, para voltar a ser *
@@ -789,6 +838,7 @@ void printarMapa(int m) {
 int main()
 {
   inicializarPlayer();
+  inicializaGrupo();
   inicializaMapa();
   inicializarInimigo();
   tile(0);
