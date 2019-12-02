@@ -321,7 +321,10 @@ void animPortal(int xp, int yp, int m){
         }
         system("sleep 0.07");
         system("cls");
+        fflush(stdin);
+        fflush(stdin);
     }
+
 }
 
 void criarInimigo(int zi, int xi, int yi){
@@ -816,7 +819,7 @@ int checarCombate(int m){
 } */
 
 void tiraInimigo(INIMIGO inimigoMorto, int m, int indice){
-    printf("Tirando inimigo\n");
+    //printf("Tirando inimigo\n");
     inimigos[m][indice] = inimigos[m][quantInimigos[m]-1];
     quantInimigos[m]--;
     switch(m){
@@ -833,7 +836,7 @@ void tiraInimigo(INIMIGO inimigoMorto, int m, int indice){
 }
 
 void tiraBoss(INIMIGO inimigoMorto, int m){
-    printf("Tirando inimigo\n");
+    //printf("Tirando inimigo\n");
     switch(m){
         case 0:
             mapa[m][inimigoMorto.y][inimigoMorto.x] = pGrama;
@@ -858,6 +861,7 @@ void checarCombate(int m){
                     printf("\nCombate Iniciado com %s\n",inimigos[m][v].nome );
                     combate(inimigos[m][v]);
                     tiraInimigo(inimigos[m][v], m, v);
+                    printf("\nDigite <ENTER> para continuar.\n");
                 }
             }
         }
@@ -872,6 +876,7 @@ void checarBoss(int m){
                     combate(boss[m]);
                     tiraBoss(boss[m], m);
                     boss[m].vivo = 0;
+                    printf("\nDigite <ENTER> para continuar.\n");
                 }
             }
 
@@ -919,6 +924,8 @@ void inicializarBoss(){
     //BOSS FINAL: X = 1, Y = 19
 
 }
+
+
 
 
 //printa o mapa, dentro dele são chamadas as funções
