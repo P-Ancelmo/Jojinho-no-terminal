@@ -88,7 +88,8 @@ PONTO pBau1 = {.cor_FG = BRANCO_FG, .cor_BG = MARROM_BG, .carac = '&', .colisao 
 PONTO pBau2 = {.cor_FG = BRANCO_FG, .cor_BG = AZUL2_BG, .carac = '&', .colisao = 4};
 
 void animVitoria(int m){
-    while(1){
+    int cont = 0;
+    while(cont < 50){
         for (i = 0; i < ALTURAMAX; i++){
             for (j = 0; j < LARGURAMAX; j++){
                 mapa[m][i][j].carac = ' ';
@@ -110,9 +111,29 @@ void animVitoria(int m){
         printf("\n");
         }
         system("sleep 0.7");
-        system("cls");
-        system("cls");
+        system("clear");
+        system("clear");
+        cont++;
     }
+    system("clear");
+    system("clear");
+    printf("%s%sY \n", RESET, LARANJA_FG);
+    system("sleep 1.0");
+    printf("%s%sO \n", RESET, VERDE_CLARO_FG);
+    system("sleep 1.0");
+    printf("%s%sU \n", RESET, AZUL_FG);
+    system("sleep 1.0");
+    printf("%s%s  \n", RESET, VERMELHO_FG);
+    system("sleep 1.0");
+    printf("%s%sW \n", RESET, VERDE_FG);
+    system("sleep 1.0");
+    printf("%s%sI \n", RESET, BRANCO_FG);
+    system("sleep 1.0");
+    printf("%s%sN \n", RESET, AZUL_FG);
+    system("sleep 1.0");
+    printf("%s%s! \n", RESET, MAGENTA_FG);
+    system("sleep 1.0");
+    exit(0);
 }
 
 
@@ -135,7 +156,7 @@ void inicializaGrupo()
   for(int i = 0; i < 3; i++)
   {
       grupo[i].xp = 0;
-      //grupo[i].xpmax = 100;
+      grupo[i].xpmax = 100;
       grupo[i].estatos.cura = 1;
       grupo[i].estatos.buff = 1;
       grupo[i].lvl = 1;
@@ -940,6 +961,9 @@ void checarBoss(int m){
                     boss[m].vivo = 0;
                     lootBoss(m);
                     printf("\nDigite <ENTER> para continuar.\n");
+                    if(m == 4){
+                        animVitoria(4);
+                    }
                 }
             }
 
@@ -1027,6 +1051,7 @@ void printarMapa(int m) {
     printarStatus(m+1);
     printarBau();
     printPos();
+    animVitoria(0);
     checarCombate(m);
     checarBoss(m);
     controla(m);
