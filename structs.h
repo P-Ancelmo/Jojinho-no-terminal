@@ -13,9 +13,10 @@ typedef struct
 	int classe; // 1 - ENT 2 - Draconato 3 - Sereia 4 - Dragão 5 -elementais 6- bruxo
   double hptemp; //com redução de dano em double, hp precisa ser também
   int hp;
+	int vivo;
   int drop;
   char elemento;
-  int tipo; //mob - miniBoss - Boss
+  int tipo; //0mob - 1miniBoss - 2Boss
   int ataque;
   int defesa;
 	int x;

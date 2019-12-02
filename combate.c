@@ -25,7 +25,7 @@ void atkInimigo(INIMIGO inimigo)
   tempdef = grupo[ale].defesa + (grupo[ale].defesa*defender(inimigo));
   danofinal = tempatk *tempdef/tempdef+5;
   grupo[ale].estatos.hp -= danofinal;
-  printf("O(A) %s dá %.2f de dano no %s \n",inimigo.nome,danofinal, grupo[ale].nome);
+  printf("Oinimigo dá %.2f de dano no %s \n",danofinal, grupo[ale].nome);
   if(grupo[ale].estatos.hp < 0)
     grupo[ale].estatos.hp=0;
   printf("%s fica com %d de HP\n",grupo[ale].nome, grupo[ale].estatos.hp);
@@ -84,7 +84,7 @@ void suporte()
     }while(opc!=1 && opc!=2 && opc!=0);
     grupo[opc].estatos.hp += grupo[opc].estatos.hp+(grupo[opc].lvl);
     if(grupo[opc].estatos.hp > grupo[opc].estatos.hpmax)
-      grupo[opc].estatos.hp = grupo[opc].estatos.hpmx;
+      grupo[opc].estatos.hp = grupo[opc].estatos.hpmax;
   }
   if(escolha[0][1]==2)
   {
@@ -383,14 +383,14 @@ void upa(int i) {
     do{
     printf("Deseja aprender Suporte[1] ou Cura[2] ?\n");
     scanf("%d", &esc);
-    }while(esc!=1 && esc!=2)
+  }while(esc!=1 && esc!=2);
   }
   if(i == 2)
   {
     do{
     printf("Deseja aprender Ataque[1] ou Proteção[2] ?\n");
     scanf("%d", &esc);
-  }while(esc!=1 && esc!=2)
+  }while(esc!=1 && esc!=2);
   }
   printf("Qual dessas deseja aprender ?\n");
   for(int j = 0; j < 4; j++)
