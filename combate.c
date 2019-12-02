@@ -25,7 +25,7 @@ void atkInimigo(INIMIGO inimigo)
   tempdef = grupo[ale].defesa + (grupo[ale].defesa*defender(inimigo));
   danofinal = tempatk *tempdef/tempdef+5;
   grupo[ale].estatos.hp -= danofinal;
-  printf("Oinimigo dá %.2f de dano no %s \n",danofinal, grupo[ale].nome);
+  printf("O inimigo dá %.2f de dano no %s \n",danofinal, grupo[ale].nome);
   if(grupo[ale].estatos.hp < 0)
     grupo[ale].estatos.hp=0;
   printf("%s fica com %d de HP\n",grupo[ale].nome, grupo[ale].estatos.hp);
@@ -414,7 +414,12 @@ void upa(int i) {
     if(escolha[i][esc-1] > 4 && ataques[i][escolha[i][esc-1]-1].lvl != 0)
       printf("Habilidade inválida, escolha outra\n");
   } while(escolha[i][esc-1] > 4 && ataques[i][escolha[i][esc-1]-1].lvl != 0);
-
+  if(esc == 1 || i == 1)
+  {
+    ataques[i][escolha[i][esc-1]].lvl = grupo[i].lvl;
+  }
+  if(esc == 2)
+    defesas[i][escolha[i][esc-1]].lvl = grupo[i].lvl;  
 }
 
 void combate(INIMIGO inimigo)
