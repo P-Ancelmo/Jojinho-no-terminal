@@ -25,7 +25,10 @@ void atkInimigo(INIMIGO inimigo)
   tempdef = grupo[ale].defesa + (grupo[ale].defesa*defender(inimigo));
   danofinal = tempatk *tempdef/tempdef+5;
   grupo[ale].estatos.hp -= danofinal;
-  printf("O inimigo dá %.2f de dano no %s \n",danofinal, grupo[ale].nome);
+  if(inimigo.classe!=3)
+    printf("A %s dá %.2f de dano no %s \n",inimigo.nome,danofinal, grupo[ale].nome);
+  else
+    printf("O %s dá %.2f de dano no %s \n",inimigo.nome,danofinal, grupo[ale].nome);
   if(grupo[ale].estatos.hp < 0)
     grupo[ale].estatos.hp=0;
   printf("%s fica com %d de HP\n",grupo[ale].nome, grupo[ale].estatos.hp);
@@ -319,9 +322,12 @@ void listarataques(int i)
   }
   do {
     scanf("%d", &escolha[i][0]);
+    //escolha[i][0] = atoi((char) escolha[i][0]);
+    if(escolha[i][0] < 1 || escolha[i][0] > 4)
+      printf("Comando invalido\n");
     if(ataques[i][escolha[i][0]-1].lvl == 0)
       printf("Habilidade bloqueada, escolha outra\n");
-  } while(ataques[i][escolha[i][0]-1].lvl == 0);
+  } while(escolha[i][0] < 1 || escolha[i][0] > 4 || ataques[i][escolha[i][0]-1].lvl == 0 );
 }
 
 void escolhas(int i)
@@ -378,6 +384,7 @@ void escolhas(int i)
 
 void upa(int i) {
   int esc;
+
   if(i == 0)
   {
     do{
@@ -401,7 +408,15 @@ void upa(int i) {
         printf("%d- %s\n",j+1, ataques[i][j].nome);
       }
     }
-    if(esc ==2)
+  }
+  if(esc ==2)
+  {
+    int k;
+    if(i == 0)
+    k =2;
+    if(i == 2)
+    k=4;
+    for(int j = 0; j < k; j++)
     {
       if(defesas[i][j].lvl == 0)
       {
@@ -411,15 +426,16 @@ void upa(int i) {
   }
   do {
     scanf("%d", &escolha[i][esc-1]);
-    if(escolha[i][esc-1] > 4 && ataques[i][escolha[i][esc-1]-1].lvl != 0)
-      printf("Habilidade inválida, escolha outra\n");
-  } while(escolha[i][esc-1] > 4 && ataques[i][escolha[i][esc-1]-1].lvl != 0);
+    //printf("%d\n", escolha[i][esc-1]);
+    if(escolha[i][esc-1] > 4 || escolha[i][esc-1] < 2 || ataques[i][escolha[i][1]-1].lvl != 0)
+      printf("Habilidade indisponivel, escolha outra\n");
+  } while(escolha[i][esc-1] > 4  || escolha[i][esc-1] < 2 || ataques[i][escolha[i][1]-1].lvl != 0);
   if(esc == 1 || i == 1)
   {
     ataques[i][escolha[i][esc-1]].lvl = grupo[i].lvl;
   }
   if(esc == 2)
-    defesas[i][escolha[i][esc-1]].lvl = grupo[i].lvl;  
+    defesas[i][escolha[i][esc-1]].lvl = grupo[i].lvl;
 }
 
 void combate(INIMIGO inimigo)
@@ -464,6 +480,7 @@ void combate(INIMIGO inimigo)
           grupo[i].xp+=120;
         if(grupo[i].xp >=  grupo[i].xpmax)
         {
+          printf("\nParabens, o %s subiu de level\n", grupo[i].nome);
           grupo[i].lvl++;
           grupo[i].xp -= grupo[i].xpmax;
           upa(i);

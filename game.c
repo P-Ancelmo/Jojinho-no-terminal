@@ -99,6 +99,7 @@ void inicializaGrupo()
   grupo[2].defesa = 7;
   for(int i = 0; i < 3; i++)
   {
+      grupo[i].estatos.hpmax=100;
       grupo[i].estatos.hp = 100;
       grupo[i].lvl = 1;
   }
@@ -317,17 +318,25 @@ void animPortal(int xp, int yp, int m){
 }
 
 void criarInimigo(int zi, int xi, int yi){
+
+
     if (quantInimigos[zi] < 10){
     inimigos[zi][quantInimigos[zi]].x = xi;     //x inicial
     inimigos[zi][quantInimigos[zi]].y = yi;     //y inicial
-    inimigos[zi][quantInimigos[zi]].elemento = zi;
+    inimigos[zi][quantInimigos[zi]].elemento = zi+1;
     inimigos[zi][quantInimigos[zi]].tipo = 0;
     inimigos[zi][quantInimigos[zi]].classe = 5;
     inimigos[zi][quantInimigos[zi]].classe = 5;
     inimigos[zi][quantInimigos[zi]].ataque = 10 + 3 * zi;
     inimigos[zi][quantInimigos[zi]].defesa = 10 + 3 * zi;
     inimigos[zi][quantInimigos[zi]].hp = 50 + 10*zi;
-    stpcpy(inimigos[zi][quantInimigos[zi]].nome, "monstro");
+    if(zi+1 == 1)
+      stpcpy(inimigos[zi][quantInimigos[zi]].nome, "Elemental de Terra");
+    if(zi+1 == 2)
+      stpcpy(inimigos[zi][quantInimigos[zi]].nome, "Elemental de Fogo");
+    if(zi+1 == 3)
+      stpcpy(inimigos[zi][quantInimigos[zi]].nome, "Elemental de Água");
+
     quantInimigos[zi]++;
   }
 }
@@ -418,7 +427,7 @@ void atualizarInimigo(int mundo){
 
 
 void inicializarInimigo(){
-    criarInimigo(0, 6, 15);
+    criarInimigo(0, 11, 11);
     criarInimigo(0, 23, 23);
     criarInimigo(0, 17, 7);
     criarInimigo(0, 8, 32);
@@ -839,7 +848,7 @@ void checarCombate(int m){
         if (eu.x == inimigos[m][v].x || eu.x - 1 == inimigos[m][v].x || eu.x + 1 == inimigos[m][v].x){
             if (eu.y == inimigos[m][v].y || eu.y - 1 == inimigos[m][v].y || eu.y + 1 == inimigos[m][v].y){
                 if (inimigos[m][v].hp > 0){
-                    printf("\nCombate Iniciado com inimigo [%d][%d]", m, v);
+                    printf("\nCombate Iniciado com %s\n",inimigos[m][v].nome );
                     combate(inimigos[m][v]);
                     tiraInimigo(inimigos[m][v], m, v);
                 }
@@ -873,7 +882,7 @@ void inicializarBoss(){
         switch(i){
             case 0:
                 boss[i].classe = 1;
-                stpcpy(boss[i].nome, "Ente");
+                stpcpy(boss[i].nome, "Ent");
                 boss[i].x = 38;
                 boss[i].y = 25;
                 break;
@@ -949,8 +958,8 @@ void printarMapa(int m) {
     //inicializaMapa();
     tile(m);
     inicializaPortal();
-    system("cls");
-    system("cls");
+    system("clear");
+    system("clear");
   }
 }
 
