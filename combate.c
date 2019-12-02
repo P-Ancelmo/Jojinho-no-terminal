@@ -475,9 +475,9 @@ void upa(int i) {
 void upa(int i)
 {
   if(grupo[i].lvl%2 == 0)
-    ataques[i][grupo[i].lvl-1].lvl = grupo[i].lvl;
+    ataques[i][grupo[i].lvl/2].lvl = grupo[i].lvl;
   if(grupo[i].lvl%2 != 0)
-    defesas[i][grupo[i].lvl-1].lvl = grupo[i].lvl;
+    defesas[i][grupo[i].lvl/2].lvl = grupo[i].lvl;
 }
 
 void inicializaItens()
