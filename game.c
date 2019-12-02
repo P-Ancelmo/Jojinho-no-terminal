@@ -1,4 +1,5 @@
 #include "combate.c"
+
 //#include "funcoes.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,6 +60,7 @@ int b=0, c=0, a = ALTURA, l = LARGURA;
 #define VERMELHO2_BG "\033[48;5;160m"
 #define BRANCO_FG "\033[38;5;15m"
 INIMIGO inimigos[MAPAS][10]; int quantInimigos[MAPAS] = {0, 0, 0, 0};
+INIMIGO boss[4];
 int bau;
 //declaração das funçoes pq vou usá-las depois
 void printarMapa(int m);
@@ -97,13 +99,17 @@ void inicializaGrupo()
   grupo[2].defesa = 7;
   for(int i = 0; i < 3; i++)
   {
-      grupo[i].estatos.hp = 20;
-      grupo[i].lvl = 2;
+      grupo[i].estatos.hp = 100;
+      grupo[i].lvl = 1;
   }
 }
 
 
 void detalhesMapa(int k){
+    //BOSS 0: X = 38, Y = 25
+    //BOSS 1: X = 21, Y = 34
+    //BOSS 2: X = 1, Y = 13
+    //BOSS FINAL: X = 1, Y = 19
   int p; int q;
     switch(k) {
       case 0:
@@ -123,6 +129,10 @@ void detalhesMapa(int k){
             mapa[k][26][p] = pGrama;
         }
         mapa[k][39][0] = pBau0;
+
+        mapa[k][25][38].carac = 'B';
+        stpcpy(mapa[k][25][38].cor_FG, BRANCO_FG);
+        mapa[k][25][38].colisao = 1;
         break;
 
       case 1:
@@ -139,6 +149,10 @@ void detalhesMapa(int k){
         }
         mapa[k][ALTURAMAX - 12][21] = pTerra;
         mapa[k][2][37] = pBau1;
+
+        mapa[k][34][21].carac = 'B';
+        stpcpy(mapa[k][34][21].cor_FG, BRANCO_FG);
+        mapa[k][34][21].colisao = 1;
         break;
 
       case 2:
@@ -192,6 +206,11 @@ void detalhesMapa(int k){
         mapa[k][14][2] = pGelo;
         mapa[k][1][LARGURAMAX - 2] = pGelo; //PORTAL
         mapa[k][5][33] = pBau2;
+
+        mapa[k][13][1].carac = 'B';
+        stpcpy(mapa[k][13][1].cor_FG, BRANCO_FG);
+        mapa[k][13][1].colisao = 1;
+
         break;
       case 3:
         for (p = 0; p < LARGURAMAX; p++){
@@ -204,9 +223,13 @@ void detalhesMapa(int k){
             mapa[k][p][38] = pChao;
             mapa[k][p][39] = pChao;
         }
+        mapa[k][19][1].carac = 'B';
+        stpcpy(mapa[k][19][1].cor_FG, BRANCO_FG);
+        mapa[k][19][1].colisao = 1;
         break;
     }
 }
+
 
 
 void inicializaMapa()
@@ -291,7 +314,6 @@ void animPortal(int xp, int yp, int m){
         system("sleep 0.07");
         system("cls");
     }
-    gets(lixo);
 }
 
 void criarInimigo(int zi, int xi, int yi){
@@ -304,6 +326,8 @@ void criarInimigo(int zi, int xi, int yi){
     inimigos[zi][quantInimigos[zi]].classe = 5;
     inimigos[zi][quantInimigos[zi]].ataque = 10 + 3 * zi;
     inimigos[zi][quantInimigos[zi]].defesa = 10 + 3 * zi;
+    inimigos[zi][quantInimigos[zi]].hp = 50 + 10*zi;
+    stpcpy(inimigos[zi][quantInimigos[zi]].nome, "monstro");
     quantInimigos[zi]++;
   }
 }
@@ -775,17 +799,111 @@ int checarCombate(int m){
     else return 0;
 } */
 
+void tiraInimigo(INIMIGO inimigoMorto, int m, int indice){
+    printf("Tirando inimigo\n");
+    inimigos[m][indice] = inimigos[m][quantInimigos[m]-1];
+    quantInimigos[m]--;
+    switch(m){
+        case 0:
+            mapa[m][inimigoMorto.y][inimigoMorto.x] = pGrama;
+            break;
+        case 1:
+            mapa[m][inimigoMorto.y][inimigoMorto.x] = pTerra2;
+            break;
+        case 2:
+            mapa[m][inimigoMorto.y][inimigoMorto.x] = pGelo;
+            break;
+    }
+}
+
+void tiraBoss(INIMIGO inimigoMorto, int m){
+    printf("Tirando inimigo\n");
+    switch(m){
+        case 0:
+            mapa[m][inimigoMorto.y][inimigoMorto.x] = pGrama;
+            break;
+        case 1:
+            mapa[m][inimigoMorto.y][inimigoMorto.x] = pTerra2;
+            break;
+        case 2:
+            mapa[m][inimigoMorto.y][inimigoMorto.x] = pGelo;
+            break;
+    }
+}
+
+
+
 void checarCombate(int m){
     int v;
     for (v = 0; v < quantInimigos[m]; v++){
         if (eu.x == inimigos[m][v].x || eu.x - 1 == inimigos[m][v].x || eu.x + 1 == inimigos[m][v].x){
             if (eu.y == inimigos[m][v].y || eu.y - 1 == inimigos[m][v].y || eu.y + 1 == inimigos[m][v].y){
-                combate(inimigos[m][v]);
-                printf("\nCombate Iniciado com inimigo [%d][%d]", m, v);
+                if (inimigos[m][v].hp > 0){
+                    printf("\nCombate Iniciado com inimigo [%d][%d]", m, v);
+                    combate(inimigos[m][v]);
+                    tiraInimigo(inimigos[m][v], m, v);
+                }
             }
         }
     }
 }
+
+void checarBoss(int m){
+        if (eu.x == boss[m].x || eu.x - 1 == boss[m].x || eu.x + 1 == boss[m].x){
+            if (eu.y == boss[m].y || eu.y - 1 == boss[m].y || eu.y + 1 == boss[m].y){
+                if (boss[m].vivo == 1){
+                    printf("\nCombate Iniciado com boss[%d]", m);
+                    combate(boss[m]);
+                    tiraBoss(boss[m], m);
+                    boss[m].vivo = 0;
+                }
+            }
+
+        }
+}
+
+void inicializarBoss(){
+    for (i = 0; i < 4; i++){
+        stpcpy(boss[i].nome, "Boss");
+        boss[i].hp = 100 + i * 20;
+        boss[i].tipo = 2;
+        boss[i].ataque = 20 + 5 * i;
+        boss[i].defesa = 5 + i;
+        boss[i].vivo = 1;
+        switch(i){
+            case 0:
+                boss[i].classe = 1;
+                stpcpy(boss[i].nome, "Ente");
+                boss[i].x = 38;
+                boss[i].y = 25;
+                break;
+            case 1:
+                boss[i].classe = 2;
+                stpcpy(boss[i].nome, "Draconato");
+                boss[i].x = 21;
+                boss[i].y = 34;
+                break;
+            case 2:
+                boss[i].classe = 3;
+                stpcpy(boss[i].nome, "Sereia");
+                boss[i].x = 1;
+                boss[i].y = 13;
+                break;
+            case 3:
+                boss[i].classe = 4;
+                stpcpy(boss[i].nome, "Dragão");
+                boss[i].x = 1;
+                boss[i].y = 19;
+                break;
+        }
+    }
+    //BOSS 0: X = 38, Y = 25
+    //BOSS 1: X = 21, Y = 34
+    //BOSS 2: X = 1, Y = 13
+    //BOSS FINAL: X = 1, Y = 19
+
+}
+
 
 //printa o mapa, dentro dele são chamadas as funções
 void printarMapa(int m) {
@@ -824,6 +942,7 @@ void printarMapa(int m) {
     printarBau();
     printPos();
     checarCombate(m);
+    checarBoss(m);
     controla(m);
     //tiraI(m);
     //a função inicializa mapa é chamada por causa do P que é printado, para voltar a ser *
@@ -838,9 +957,11 @@ void printarMapa(int m) {
 int main()
 {
   inicializarPlayer();
+  inicializaMagias();
   inicializaGrupo();
   inicializaMapa();
   inicializarInimigo();
+  inicializarBoss();
   tile(0);
   //animPortal(eu.x, eu.y, 0);
   system("cls");
