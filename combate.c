@@ -9,6 +9,11 @@
 double proteger(INIMIGO inimigo);
 double defender(INIMIGO inimigo);
 
+void limparBuffer(){
+    int nan;
+    while((nan = getchar()) != EOF && nan != '\n' );
+}
+
 void atkInimigo(INIMIGO inimigo)
 {
   double danofinal;
@@ -44,6 +49,7 @@ void suporte()
       //printf("%d\n",escolha[0][0]);
       printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:");
       scanf("%d", &opc);
+      limparBuffer();
       if(opc!=1 && opc!=2)
       {
         //system("clear");
@@ -63,6 +69,7 @@ void suporte()
     {
       printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:");
       scanf("%d", &opc);
+      limparBuffer();
       if(opc!=1 && opc!=2)
       {
         //system("clear");
@@ -79,6 +86,7 @@ void suporte()
     {
       printf("Escolha um aliado para abençoar [0-Healer, 1-Guerreiro ou 2-Mago]:");
       scanf("%d", &opc);
+      limparBuffer();
       if(opc!=1 && opc!=2 && opc !=0)
       {
         //system("clear");
@@ -95,6 +103,7 @@ void suporte()
     {
       printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:");
       scanf("%d", &opc);
+      limparBuffer();
       if(opc!=1 && opc!= 2 && opc !=0 && grupo[opc].estatos.hp!=0)
       {
         //system("clear");
@@ -304,6 +313,7 @@ void listardefesas(int i)
   }
   do {
     scanf("%d", &escolha[i][1]);
+    limparBuffer();
     if(defesas[i][escolha[i][1]-1].lvl == 0)
       printf("Habilidade bloqueada, escolha outra\n");
   } while(defesas[i][escolha[i][1]-1].lvl == 0);
@@ -322,6 +332,7 @@ void listarataques(int i)
   }
   do {
     scanf("%d", &escolha[i][0]);
+    limparBuffer();
     //escolha[i][0] = atoi((char) escolha[i][0]);
     if(escolha[i][0] < 1 || escolha[i][0] > 4)
       printf("Comando invalido\n");
@@ -338,6 +349,7 @@ void escolhas(int i)
     do {
       printf("Clérigo HP: %d\n1- Suporte  2- Cura\n", grupo[0].estatos.hp);
       scanf("%d", &esc);
+      limparBuffer();
       //gets(lixo);
     } while(esc !=1 && esc!=2);
     if(esc == 1)
@@ -352,6 +364,7 @@ void escolhas(int i)
     do {
       printf("Guerreiro HP: %d\n1- Ataque  2- Proteção\n",grupo[1].estatos.hp);
       scanf("%d", &esc);
+      limparBuffer();
     } while(esc !=1 && esc!=2);
     if(esc == 1)
       listarataques(i);
@@ -366,6 +379,7 @@ void escolhas(int i)
     do {
       printf("Mago HP: %d\n1- Ataque  2- Defesa\n", grupo[2].estatos.hp);
       scanf("%d", &esc);
+      limparBuffer();
     } while(esc !=1 && esc!=2);
     if(esc == 1)
       listarataques(i);
@@ -381,7 +395,7 @@ void escolhas(int i)
     }
   }
 }
-
+/*
 void upa(int i) {
   int esc=0;
 
@@ -404,6 +418,7 @@ void upa(int i) {
     do{
     printf("Deseja aprender Ataque[1] ou Proteção[2] ?\n");
     scanf("%d", &esc);
+    limparBuffer();
     }while(esc!=1 && esc!=2);
   }
 
@@ -434,6 +449,7 @@ void upa(int i) {
   }
   do {
     scanf("%d", &escolha[i][esc-1]);
+    limparBuffer();
     //printf("%d\n", escolha[i][esc-1]);
     if(escolha[i][esc-1] > 4 || escolha[i][esc-1] < 2 || ataques[i][escolha[i][esc-1]-1].lvl > 0)
     {
@@ -450,7 +466,7 @@ void upa(int i) {
   if(esc == 2)
     defesas[i][escolha[i][esc-1]].lvl = grupo[i].lvl;
 }
-
+*/
 void combate(INIMIGO inimigo)
 {
   int deftemp[3],atktemp[3],i;
