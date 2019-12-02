@@ -57,6 +57,7 @@ int b=0, c=0, a = ALTURA, l = LARGURA;
 #define TERRA_FG "\033[38;5;130m"
 #define MARROM_BG "\033[48;5;94m"
 #define LARANJA_FG "\033[38;5;202m"
+#define LARANJA_BG "\033[48;5;202m"
 #define VERMELHO2_BG "\033[48;5;160m"
 #define BRANCO_FG "\033[38;5;15m"
 INIMIGO inimigos[MAPAS][10]; int quantInimigos[MAPAS] = {0, 0, 0, 0};
@@ -86,6 +87,34 @@ PONTO pBau0 = {.cor_FG = BRANCO_FG, .cor_BG = VERDE_CLARO_BG, .carac = '&', .col
 PONTO pBau1 = {.cor_FG = BRANCO_FG, .cor_BG = MARROM_BG, .carac = '&', .colisao = 4};
 PONTO pBau2 = {.cor_FG = BRANCO_FG, .cor_BG = AZUL2_BG, .carac = '&', .colisao = 4};
 
+void animVitoria(int m){
+    while(1){
+        for (i = 0; i < ALTURAMAX; i++){
+            for (j = 0; j < LARGURAMAX; j++){
+                mapa[m][i][j].carac = ' ';
+                srand(clock());
+                int ale = rand() % 3;
+                    switch(ale){
+                        case 0:
+                            stpcpy(mapa[m][i][j].cor_BG, VERDE_CLARO_BG);
+                            break;
+                        case 1:
+                            stpcpy(mapa[m][i][j].cor_BG, LARANJA_BG);
+                            break;
+                        case 2:
+                            stpcpy(mapa[m][i][j].cor_BG, AZUL_CLARO_BG);
+                            break;
+                    }
+                printf("%s%s%c %s", mapa[m][i][j].cor_FG, mapa[m][i][j].cor_BG, mapa[m][i][j].carac, RESET);
+            }
+        printf("\n");
+        }
+        system("sleep 0.7");
+        system("cls");
+        system("cls");
+    }
+}
+
 
 void inicializaGrupo()
 {
@@ -107,7 +136,8 @@ void inicializaGrupo()
   {
       grupo[i].xp = 0;
       //grupo[i].xpmax = 100;
-
+      grupo[i].estatos.cura = 1;
+      grupo[i].estatos.buff = 1;
       grupo[i].lvl = 1;
   }
 }
@@ -529,8 +559,18 @@ void checarBau(int m){
 }
 
 void printarBau(){
-    if (bau != 0)
-        printf("Abriu bau %d\n", bau - 1);
+    if (bau != 0){
+        printf("Você encontrou o item %s.\n", artefatos[bau].nome);
+        printf("Classe: Curandeiro\n");
+        printf("Multiplicador de cura: %.0f%%\n", artefatos[bau].cura*100 - 100);
+        printf("Multiplicador de buff: %.0f%%\n", artefatos[bau].buff*100 - 100);
+        printf("Bônus de vida: %.0f%%\n", artefatos[bau].vida*100 - 100);
+        printf("%s\n", artefatos[bau].lore);
+        grupo[0].estatos.hp *= artefatos[bau].vida;
+        grupo[0].estatos.cura *= artefatos[bau].cura;
+        grupo[0].estatos.buff *= artefatos[bau].buff;
+
+    }
 }
 
 //função pra controlar o personagem com validações de colisão e já como parallax
@@ -850,7 +890,29 @@ void tiraBoss(INIMIGO inimigoMorto, int m){
     }
 }
 
-
+void lootBoss(int m)
+{
+    printf("\n");
+    printf("O Guerreiro recebe o item %s.\n", espadas[m+1].nome);
+    printf("%s\n", espadas[m+1].lore);
+    printf("\n");
+    printf("O Mago recebe o item %s.\n",varinhas[m+1].nome);
+    printf("%s\n", varinhas[m+1].lore);
+    grupo[1].ataque+= espadas[m+1].dano;
+    printf("\n");
+    printf("O Guerreiro recebe mais %d de ataque.\n", espadas[m+1].dano);
+    grupo[1].estatos.crit+= espadas[m+1].crit;
+    printf("O Guerreiro recebe mais %d de critico.\n", espadas[m+1].crit);
+    grupo[1].estatos.duplo+= espadas[m+1].duplo;
+    printf("O Guerreiro recebe mais %d de duplo.\n", espadas[m+1].duplo);
+    printf("\n");
+    grupo[2].ataque+= varinhas[m+1].dano;
+    printf("O Mago recebe mais %d de ataque.\n", varinhas[m+1].dano);
+    grupo[2].estatos.crit+= varinhas[m+1].crit;
+    printf("O Mago recebe mais %d de critico.\n", varinhas[m+1].crit);
+    grupo[2].estatos.duplo+= varinhas[m+1].duplo;
+    printf("O Mago recebe mais %d de duplo.\n", varinhas[m+1].duplo);
+}
 
 void checarCombate(int m){
     int v;
@@ -876,6 +938,7 @@ void checarBoss(int m){
                     combate(boss[m]);
                     tiraBoss(boss[m], m);
                     boss[m].vivo = 0;
+                    lootBoss(m);
                     printf("\nDigite <ENTER> para continuar.\n");
                 }
             }
@@ -985,6 +1048,7 @@ int main()
   inicializaMapa();
   inicializarInimigo();
   inicializarBoss();
+  inicializaItens();
   tile(0);
   //animPortal(eu.x, eu.y, 0);
   system("cls");
