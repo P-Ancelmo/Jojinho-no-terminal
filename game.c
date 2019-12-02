@@ -93,14 +93,21 @@ void inicializaGrupo()
   stpcpy(grupo[1].nome, "Guerreiro");
   stpcpy(grupo[2].nome, "Mago");
   grupo[0].defesa = 7;
+  grupo[0].estatos.hp = 40;
+  grupo[0].estatos.hpmax = 40;
   grupo[1].ataque = 8;
   grupo[1].defesa = 19;
+  grupo[1].estatos.hp = 100;
+  grupo[1].estatos.hpmax = 100;
   grupo[2].ataque = 15;
   grupo[2].defesa = 7;
+  grupo[2].estatos.hp = 70;
+  grupo[2].estatos.hpmax = 70;
   for(int i = 0; i < 3; i++)
   {
-      grupo[i].estatos.hpmax=100;
-      grupo[i].estatos.hp = 100;
+      grupo[i].xp = 0;
+      //grupo[i].xpmax = 100;
+
       grupo[i].lvl = 1;
   }
 }
