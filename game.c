@@ -89,7 +89,7 @@ PONTO pBau2 = {.cor_FG = BRANCO_FG, .cor_BG = AZUL2_BG, .carac = '&', .colisao =
 
 void animVitoria(int m){
     int cont = 0;
-    while(cont < 50){
+    while(cont < 10){
         for (i = 0; i < ALTURAMAX; i++){
             for (j = 0; j < LARGURAMAX; j++){
                 mapa[m][i][j].carac = ' ';
