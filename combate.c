@@ -526,7 +526,7 @@ void combate(INIMIGO inimigo)
           grupo[i].estatos.ataque+=grupo[i].estatos.ataque*0.2;
           grupo[i].estatos.defesa+=grupo[i].estatos.defesa*0.2;
           grupo[i].estatos.hpmax += grupo[i].estatos.hpmax*0.1;
-          upa(i);
+          //upa(i);
           int k=0, j=0;
           if(i == 0)
             k=2;
