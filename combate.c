@@ -15,7 +15,9 @@ void atkInimigo(INIMIGO inimigo)
   double tempdef, tempatk;
   int ale;
   srand(clock());
-  ale = rand()%3;
+  do {
+    ale = rand()%3;
+  } while(grupo[ale].estatos.hp <= 0);
 
   if(escolha[1][0]==3)
     ale=1;
@@ -23,7 +25,9 @@ void atkInimigo(INIMIGO inimigo)
   tempdef = grupo[ale].defesa + (grupo[ale].defesa*defender(inimigo));
   danofinal = tempatk *tempdef/tempdef+5;
   grupo[ale].estatos.hp -= danofinal;
-  printf("O inimigo dá %.2f de dano no %s \n",danofinal, grupo[ale].nome);
+  printf("O(A) %s dá %.2f de dano no %s \n",inimigo.nome,danofinal, grupo[ale].nome);
+  if(grupo[ale].estatos.hp < 0)
+    grupo[ale].estatos.hp=0;
   printf("%s fica com %d de HP\n",grupo[ale].nome, grupo[ale].estatos.hp);
 }
 
@@ -79,6 +83,8 @@ void suporte()
       }
     }while(opc!=1 && opc!=2 && opc!=0);
     grupo[opc].estatos.hp += grupo[opc].estatos.hp+(grupo[opc].lvl);
+    if(grupo[opc].estatos.hp > grupo[opc].estatos.hpmax)
+      grupo[opc].estatos.hp = grupo[opc].estatos.hpmx;
   }
   if(escolha[0][1]==2)
   {
@@ -291,7 +297,7 @@ void listardefesas(int i)
       printf("%d- %s\n",j+1, defesas[i][j].nome);
     }
     else
-      printf("%d- Habilidade bloqueada\n",j);
+      printf("%d- Habilidade bloqueada\n",j+1);
   }
   do {
     scanf("%d", &escolha[i][1]);
@@ -370,6 +376,47 @@ void escolhas(int i)
   }
 }
 
+void upa(int i) {
+  int esc;
+  if(i == 0)
+  {
+    do{
+    printf("Deseja aprender Suporte[1] ou Cura[2] ?\n");
+    scanf("%d", &esc);
+    }while(esc!=1 && esc!=2)
+  }
+  if(i == 2)
+  {
+    do{
+    printf("Deseja aprender Ataque[1] ou Proteção[2] ?\n");
+    scanf("%d", &esc);
+  }while(esc!=1 && esc!=2)
+  }
+  printf("Qual dessas deseja aprender ?\n");
+  for(int j = 0; j < 4; j++)
+  {
+    if(esc ==1){
+      if(ataques[i][j].lvl == 0)
+      {
+        printf("%d- %s\n",j+1, ataques[i][j].nome);
+      }
+    }
+    if(esc ==2)
+    {
+      if(defesas[i][j].lvl == 0)
+      {
+        printf("%d- %s\n",j+1, defesas[i][j].nome);
+      }
+    }
+  }
+  do {
+    scanf("%d", &escolha[i][esc-1]);
+    if(escolha[i][esc-1] > 4 && ataques[i][escolha[i][esc-1]-1].lvl != 0)
+      printf("Habilidade inválida, escolha outra\n");
+  } while(escolha[i][esc-1] > 4 && ataques[i][escolha[i][esc-1]-1].lvl != 0);
+
+}
+
 void combate(INIMIGO inimigo)
 {
   int deftemp[3],atktemp[3],i;
@@ -378,7 +425,7 @@ void combate(INIMIGO inimigo)
     deftemp[i] = grupo[i].defesa;
     atktemp[i] = grupo[i].ataque;
   }
-  while(grupo[1].estatos.hp != 0 || grupo[2].estatos.hp != 0)
+  while(grupo[1].estatos.hp > 0 || grupo[2].estatos.hp > 0)
   {
     for(int i = 0; i <3; i++)
     {
@@ -402,6 +449,22 @@ void combate(INIMIGO inimigo)
     if(inimigo.hp <= 0)
     {
       printf("Você venceu a luta\n");
+      for(int i = 0; i < 3; i++)
+      {
+        if(inimigo.tipo == 0)
+          grupo[i].xp+=30;
+        if(inimigo.tipo == 1)
+          grupo[i].xp+=90;
+        if(inimigo.tipo == 2)
+          grupo[i].xp+=120;
+        if(grupo[i].xp >=  grupo[i].xpmax)
+        {
+          grupo[i].lvl++;
+          grupo[i].xp -= grupo[i].xpmax;
+          upa(i);
+        }
+      }
+
       //loot();
       return;
     }
@@ -411,6 +474,11 @@ void combate(INIMIGO inimigo)
     {
       grupo[i].ataque = atktemp[i];
       grupo[i].defesa = deftemp[i];
+    }
+    if(grupo[1].estatos.hp <= 0 && grupo[2].estatos.hp <= 0)
+    {
+      printf("Sua equipe foi morta pelo(a) %s\n", inimigo.nome);
+      return;
     }
 
   }
