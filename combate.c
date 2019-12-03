@@ -51,7 +51,7 @@ void suporte()
     do
     {
       //printf("%d\n",escolha[0][0]);
-      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:");
+      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:\n");
       scanf("%d", &opc);
       limparBuffer();
       if(opc!=1 && opc!=2)
@@ -71,7 +71,7 @@ void suporte()
   {
     do
     {
-      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:");
+      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:\n");
       scanf("%d", &opc);
       limparBuffer();
       if(opc!=1 && opc!=2)
@@ -88,7 +88,7 @@ void suporte()
   {
     do
     {
-      printf("Escolha um aliado para abençoar [0-Healer, 1-Guerreiro ou 2-Mago]:");
+      printf("Escolha um aliado para abençoar [0-Healer, 1-Guerreiro ou 2-Mago]:\n");
       scanf("%d", &opc);
       limparBuffer();
       if(opc!=1 && opc!=2 && opc !=0)
@@ -105,7 +105,7 @@ void suporte()
   {
     do
     {
-      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:");
+      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:\n");
       scanf("%d", &opc);
       limparBuffer();
       if(opc!=1 && opc!= 2 && opc !=0 && grupo[opc].estatos.hp!=0)
@@ -160,7 +160,7 @@ void fisico(INIMIGO inimigo, INIMIGO *end)
   else
   {
     danofinal = grupo[1].ataque+(grupo[1].ataque*peso);
-    printf("Dano do Guerreiro ! %.2f !\n", danofinal);
+    printf("Dano do Guerreiro: %.2f!\n", danofinal);
   }
   end->hp -= danofinal;
   double danoparcial=danofinal;
@@ -241,7 +241,7 @@ double defender(INIMIGO inimigo)
     else
     {
       danofinal = grupo[2].ataque+(grupo[2].ataque*peso);
-      printf("Dano do Mago ! %.2f !\n", danofinal);
+      printf("Dano do Mago: %.2f!\n", danofinal);
     }
     end->hp -= danofinal;
     dado = rand() % 100;
@@ -351,7 +351,7 @@ void escolhas(int i)
   if(i == 0)
   {
     do {
-      printf("Clérigo HP: %d\n1- Suporte  2- Cura\n", grupo[0].estatos.hp);
+      printf("\nClérigo HP: %d\n1- Suporte  2- Cura\n", grupo[0].estatos.hp);
       scanf("%d", &esc);
       limparBuffer();
       //gets(lixo);
@@ -366,7 +366,7 @@ void escolhas(int i)
   if(i == 1)
   {
     do {
-      printf("Guerreiro HP: %d\n1- Ataque  2- Proteção\n",grupo[1].estatos.hp);
+      printf("\nGuerreiro HP: %d\n1- Ataque  2- Proteção\n",grupo[1].estatos.hp);
       scanf("%d", &esc);
       limparBuffer();
     } while(esc !=1 && esc!=2);
@@ -381,7 +381,7 @@ void escolhas(int i)
   {
     inicio:
     do {
-      printf("Mago HP: %d\n1- Ataque  2- Defesa\n", grupo[2].estatos.hp);
+      printf("\nMago HP: %d\n1- Ataque  2- Defesa\n", grupo[2].estatos.hp);
       scanf("%d", &esc);
       limparBuffer();
     } while(esc !=1 && esc!=2);
@@ -645,7 +645,7 @@ void combate(INIMIGO inimigo)
           grupo[i].lvl++;
           if(i == 0)
           {
-            printf("Parabens, o grupo subiu de level. Novo level %d\n",grupo[i].lvl);
+            printf("Parabéns, o grupo subiu de level. Novo level: %d\n",grupo[i].lvl);
           }
           grupo[i].xp -= grupo[i].xpmax;
           grupo[i].xpmax+=20;
