@@ -89,9 +89,9 @@ PONTO pBau2 = {.cor_FG = BRANCO_FG, .cor_BG = AZUL2_BG, .carac = '&', .colisao =
 
 void animVitoria(int m){
     int cont = 0;
-    while(cont < 10){
-        for (i = 0; i < ALTURAMAX; i++){
-            for (j = 0; j < LARGURAMAX; j++){
+    while(cont < 500){
+        for (i = 0; i < ALTURA; i++){
+            for (j = 0; j < LARGURA; j++){
                 mapa[m][i][j].carac = ' ';
                 srand(clock());
                 int ale = rand() % 3;
@@ -110,7 +110,6 @@ void animVitoria(int m){
             }
         printf("\n");
         }
-        system("sleep 0.7");
         system("clear");
         system("clear");
         cont++;
@@ -127,11 +126,11 @@ void animVitoria(int m){
     system("sleep 1.0");
     printf("%s%sW \n", RESET, VERDE_FG);
     system("sleep 1.0");
-    printf("%s%sI \n", RESET, BRANCO_FG);
+    printf("%s%sI \n", RESET, MAGENTA_FG);
     system("sleep 1.0");
     printf("%s%sN \n", RESET, AZUL_FG);
     system("sleep 1.0");
-    printf("%s%s! \n", RESET, MAGENTA_FG);
+    printf("%s%s! \n", RESET, BRANCO_FG);
     system("sleep 1.0");
     exit(0);
 }
@@ -143,15 +142,15 @@ void inicializaGrupo()
   stpcpy(grupo[1].nome, "Guerreiro");
   stpcpy(grupo[2].nome, "Mago");
   grupo[0].defesa = 7;
-  grupo[0].estatos.hp = 40;
+  grupo[0].estatos.hp = 100;
   grupo[0].estatos.hpmax = 40;
   grupo[1].ataque = 8;
   grupo[1].defesa = 19;
-  grupo[1].estatos.hp = 100;
+  grupo[1].estatos.hp = 200;
   grupo[1].estatos.hpmax = 100;
   grupo[2].ataque = 15;
   grupo[2].defesa = 7;
-  grupo[2].estatos.hp = 70;
+  grupo[2].estatos.hp = 100;
   grupo[2].estatos.hpmax = 70;
   for(int i = 0; i < 3; i++)
   {
@@ -371,10 +370,11 @@ void animPortal(int xp, int yp, int m){
             r++;
         }
         system("sleep 0.07");
-        system("cls");
-
+        system("clear");
+        fflush(stdin);
+        fflush(stdin);
     }
-    
+
 }
 
 void criarInimigo(int zi, int xi, int yi){
@@ -954,14 +954,16 @@ void checarBoss(int m){
         if (eu.x == boss[m].x || eu.x - 1 == boss[m].x || eu.x + 1 == boss[m].x){
             if (eu.y == boss[m].y || eu.y - 1 == boss[m].y || eu.y + 1 == boss[m].y){
                 if (boss[m].vivo == 1){
-                    printf("\nCombate Iniciado com boss[%d]", m);
+                    printf("\nCombate Iniciado com %s\n", boss[m].nome);
                     combate(boss[m]);
-                    tiraBoss(boss[m], m);
-                    boss[m].vivo = 0;
-                    lootBoss(m);
-                    printf("\nDigite <ENTER> para continuar.\n");
-                    if(m == 4){
-                        animVitoria(4);
+                    if(m == 3){
+                        animVitoria(3);
+                    }
+                    else {
+                        lootBoss(m);
+                        tiraBoss(boss[m], m);
+                        boss[m].vivo = 0;
+                        printf("\nDigite <ENTER> para continuar.\n");
                     }
                 }
             }
@@ -1047,9 +1049,9 @@ void printarMapa(int m) {
       }
       printf("\n" );
     }
-    printarStatus(m+1);
+    //printarStatus(m+1);
     printarBau();
-    printPos();
+    //printPos();
     //animVitoria(0);
     checarCombate(m);
     checarBoss(m);
@@ -1075,6 +1077,6 @@ int main()
   inicializaItens();
   tile(0);
   //animPortal(eu.x, eu.y, 0);
-  system("cls");
+  system("clear");
   printarMapa(0);
 }
