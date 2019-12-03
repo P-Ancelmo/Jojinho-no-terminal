@@ -487,7 +487,7 @@ void atualizarInimigo(int mundo){
 
 
 void inicializarInimigo(){
-    criarInimigo(0, 11, 11);
+    criarInimigo(0, 6, 15);
     criarInimigo(0, 23, 23);
     criarInimigo(0, 17, 7);
     criarInimigo(0, 8, 32);
