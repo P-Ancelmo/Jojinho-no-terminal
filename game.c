@@ -580,11 +580,11 @@ void checarBau(int m){
 
 void printarBau(){
     if (bau != 0){
-        printf("Você encontrou o item %s.\n", artefatos[bau].nome);
+        printf("[Tesouro] Acaba de encontrar um(a) %s.\n", artefatos[bau].nome);
         printf("Classe: Curandeiro\n");
         printf("Multiplicador de cura: %.0f%%\n", artefatos[bau].cura*100 - 100);
         printf("Multiplicador de buff: %.0f%%\n", artefatos[bau].buff*100 - 100);
-        printf("Bônus de vida: %.0f%%\n", artefatos[bau].vida*100 - 100);
+        printf("Multiplicador de vida: %.0f%%\n", artefatos[bau].vida*100 - 100);
         printf("%s\n", artefatos[bau].lore);
         grupo[0].estatos.hp *= artefatos[bau].vida;
         grupo[0].estatos.cura *= artefatos[bau].cura;
@@ -913,25 +913,25 @@ void tiraBoss(INIMIGO inimigoMorto, int m){
 void lootBoss(int m)
 {
     printf("\n");
-    printf("O Guerreiro recebe o item %s.\n", espadas[m+1].nome);
+    printf("[Guerreiro] NOVO ITEM >>> %s.\n", espadas[m+1].nome);
     printf("%s\n", espadas[m+1].lore);
     printf("\n");
-    printf("O Mago recebe o item %s.\n",varinhas[m+1].nome);
+    printf("[Mago] NOVO ITEM >>> %s.\n",varinhas[m+1].nome);
     printf("%s\n", varinhas[m+1].lore);
     grupo[1].ataque+= espadas[m+1].dano;
     printf("\n");
-    printf("O Guerreiro recebe mais %d de ataque.\n", espadas[m+1].dano);
+    printf("[Guerreiro] + %d de ataque.\n", espadas[m+1].dano);
     grupo[1].estatos.crit+= espadas[m+1].crit;
-    printf("O Guerreiro recebe mais %d de critico.\n", espadas[m+1].crit);
+    printf("[Guerreiro] + %d de chance para critico.\n", espadas[m+1].crit);
     grupo[1].estatos.duplo+= espadas[m+1].duplo;
-    printf("O Guerreiro recebe mais %d de duplo.\n", espadas[m+1].duplo);
+    printf("[Guerreiro] + %d de chance para golpe duplo.\n", espadas[m+1].duplo);
     printf("\n");
     grupo[2].ataque+= varinhas[m+1].dano;
-    printf("O Mago recebe mais %d de ataque.\n", varinhas[m+1].dano);
+    printf("[Mago] + %d de ataque.\n", varinhas[m+1].dano);
     grupo[2].estatos.crit+= varinhas[m+1].crit;
-    printf("O Mago recebe mais %d de critico.\n", varinhas[m+1].crit);
+    printf("[Mago] + %d de chance para critico.\n", varinhas[m+1].crit);
     grupo[2].estatos.duplo+= varinhas[m+1].duplo;
-    printf("O Mago recebe mais %d de duplo.\n", varinhas[m+1].duplo);
+    printf("[Mago] + %d de chance para golpe duplo.\n", varinhas[m+1].duplo);
 }
 
 void checarCombate(int m){
@@ -940,7 +940,7 @@ void checarCombate(int m){
         if (eu.x == inimigos[m][v].x || eu.x - 1 == inimigos[m][v].x || eu.x + 1 == inimigos[m][v].x){
             if (eu.y == inimigos[m][v].y || eu.y - 1 == inimigos[m][v].y || eu.y + 1 == inimigos[m][v].y){
                 if (inimigos[m][v].hp > 0){
-                    printf("\nCombate Iniciado com %s\n",inimigos[m][v].nome );
+                    printf(VERDE_CLARO_FG"\n[Combate] Inimigo >>> %s\n"RESET,inimigos[m][v].nome );
                     combate(inimigos[m][v]);
                     tiraInimigo(inimigos[m][v], m, v);
                     printf("\nDigite <ENTER> para continuar.\n");
@@ -954,7 +954,7 @@ void checarBoss(int m){
         if (eu.x == boss[m].x || eu.x - 1 == boss[m].x || eu.x + 1 == boss[m].x){
             if (eu.y == boss[m].y || eu.y - 1 == boss[m].y || eu.y + 1 == boss[m].y){
                 if (boss[m].vivo == 1){
-                    printf("\nCombate Iniciado com %s\n", boss[m].nome);
+                    printf(VERDE_CLARO_FG"\n[Combate] Inimigo >>> %s\n"RESET, boss[m].nome);
                     combate(boss[m]);
                     if(m == 3){
                         animVitoria(3);
@@ -1000,7 +1000,7 @@ void inicializarBoss(){
                 break;
             case 3:
                 boss[i].classe = 4;
-                stpcpy(boss[i].nome, "Dragão");
+                stpcpy(boss[i].nome, "Leviathan");
                 boss[i].x = 1;
                 boss[i].y = 19;
                 break;

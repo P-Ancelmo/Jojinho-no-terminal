@@ -35,12 +35,12 @@ void atkInimigo(INIMIGO inimigo)
   danofinal = tempatk *tempdef/tempdef+5;
   grupo[ale].estatos.hp -= danofinal;
   if(inimigo.classe!=3)
-    printf("A %s dá %.2f de dano no %s \n",inimigo.nome,danofinal, grupo[ale].nome);
+    printf(VERDE_CLARO_FG"[Inimigo] %s inflinge %.2f de dano ao %s \n"RESET,inimigo.nome,danofinal, grupo[ale].nome);
   else
-    printf("O %s dá %.2f de dano no %s \n",inimigo.nome,danofinal, grupo[ale].nome);
+    printf(VERDE_CLARO_FG"[Inimigo] %s inflinge %.2f de dano ao %s \n"RESET,inimigo.nome,danofinal, grupo[ale].nome);
   if(grupo[ale].estatos.hp < 0)
     grupo[ale].estatos.hp=0;
-  printf("%s fica com %d de HP\n",grupo[ale].nome, grupo[ale].estatos.hp);
+  printf("[Grupo] %s agora possui %d HP\n",grupo[ale].nome, grupo[ale].estatos.hp);
 }
 
 void suporte()
@@ -51,7 +51,7 @@ void suporte()
     do
     {
       //printf("%d\n",escolha[0][0]);
-      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:\n");
+      printf("Selecione um integrante do grupo para aplicar [1-Guerreiro ou 2-Mago]:");
       scanf("%d", &opc);
       limparBuffer();
       if(opc!=1 && opc!=2)
@@ -71,7 +71,7 @@ void suporte()
   {
     do
     {
-      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:\n");
+      printf("Selecione um integrante do grupo para aplicar [1-Guerreiro ou 2-Mago]:");
       scanf("%d", &opc);
       limparBuffer();
       if(opc!=1 && opc!=2)
@@ -88,7 +88,7 @@ void suporte()
   {
     do
     {
-      printf("Escolha um aliado para abençoar [0-Healer, 1-Guerreiro ou 2-Mago]:\n");
+      printf("Selecione um integrante do grupo para aplicar [0-Healer, 1-Guerreiro ou 2-Mago]:");
       scanf("%d", &opc);
       limparBuffer();
       if(opc!=1 && opc!=2 && opc !=0)
@@ -105,7 +105,7 @@ void suporte()
   {
     do
     {
-      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:\n");
+      printf("Escolha um aliado para abençoar [1-Guerreiro ou 2-Mago]:");
       scanf("%d", &opc);
       limparBuffer();
       if(opc!=1 && opc!= 2 && opc !=0 && grupo[opc].estatos.hp!=0)
@@ -155,12 +155,12 @@ void fisico(INIMIGO inimigo, INIMIGO *end)
   if((100.00 - grupo[1].estatos.crit) <= dado)
   {
     danofinal = grupo[1].ataque + (grupo[1].ataque* 1.5 * peso);
-    printf("Golpe Crítico ! %.2f !\n", danofinal);
+    printf(VERMELHO_FG">>> Golpe Crítico do Guerreiro: %.2f <<<\n"RESET, danofinal);
   }
   else
   {
     danofinal = grupo[1].ataque+(grupo[1].ataque*peso);
-    printf("Dano do Guerreiro: %.2f!\n", danofinal);
+    printf(">>> Dano do Guerreiro: %.2f !\n", danofinal);
   }
   end->hp -= danofinal;
   double danoparcial=danofinal;
@@ -171,18 +171,18 @@ void fisico(INIMIGO inimigo, INIMIGO *end)
     if((100.00 - grupo[1].estatos.crit) <= dado)
     {
       danofinal = (grupo[1].ataque+(grupo[1].ataque * 1.5 * peso));
-      printf("Golpe Extra Crítico ! %.2f !\n", danofinal);
+      printf(VERMELHO_FG">>> Golpe Extra Crítico do Guerreiro: %.2f <<<\n"RESET, danofinal);
       end->hp -= danofinal;
     }
     else
     {
       danofinal = (grupo[1].ataque+(grupo[1].ataque * peso));
-      printf("Golpe Extra ! %.2f !\n", danofinal);
+      printf(VERMELHO_FG">>> Golpe Extra do Guerreiro: %.2f <<<\n"RESET, danofinal);
       end->hp -= danofinal;
     }
   }
   if(danoparcial!=danofinal)
-    printf("Dano Total do Guerreiro: %.2f \n", danoparcial+danofinal);
+    printf("[Dano Final] Guerreiro: %.2f \n", danoparcial+danofinal);
 }
 
 double defender(INIMIGO inimigo)
@@ -236,12 +236,12 @@ double defender(INIMIGO inimigo)
     if((100.00 - grupo[2].estatos.crit) <= dado)
     {
       danofinal = grupo[2].ataque+(grupo[2].ataque*peso*1.5);
-      printf("Dano Crítico do Mago ! %.2f !\n", danofinal);
+      printf(VERMELHO_FG">>> Dano Crítico do Mago: %.2f <<<\n"RESET, danofinal);
     }
     else
     {
       danofinal = grupo[2].ataque+(grupo[2].ataque*peso);
-      printf("Dano do Mago: %.2f!\n", danofinal);
+      printf(">>> Dano do Mago: %.2f \n", danofinal);
     }
     end->hp -= danofinal;
     dado = rand() % 100;
@@ -251,18 +251,18 @@ double defender(INIMIGO inimigo)
       if((100.00 - grupo[2].estatos.crit) <= dado)
       {
         danofinal = (grupo[2].ataque+(grupo[2].ataque*peso*1.5));
-        printf("Golpe Extra Crítico ! %.2f !\n", danofinal);
+        printf(VERMELHO_FG">>> Golpe Extra Crítico do Mago: %.2f <<<\n"RESET, danofinal);
         end->hp -= danofinal;
       }
       else
       {
         danofinal = (grupo[2].ataque+(grupo[2].ataque*peso));
-        printf("Golpe Extra ! %.2f !\n", danofinal);
+        printf(VERMELHO_FG">>> Golpe Extra do Mago: %.2f <<<\n"RESET, danofinal);
         end->hp -= danofinal;
       }
     }
     if(danofinal!=danoparcial)
-      printf("Dano Total Causado: %.2f \n", danofinal);
+      printf("[Dano Final] Mago: %.2f \n", danofinal);
 }
 
 void inicializaMagias()
@@ -310,16 +310,16 @@ void listardefesas(int i)
   {
     if(defesas[i][j].lvl != 0)
     {
-      printf("%d- %s\n",j+1, defesas[i][j].nome);
+      printf("[%d] %s\n",j+1, defesas[i][j].nome);
     }
     else
-      printf("%d- Habilidade bloqueada\n",j+1);
+      printf("[%d] Habilidade bloqueada\n",j+1);
   }
   do {
     scanf("%d", &escolha[i][1]);
     limparBuffer();
     if(defesas[i][escolha[i][1]-1].lvl == 0)
-      printf("Habilidade bloqueada, escolha outra\n");
+      printf("Habilidade bloqueada \n");
   } while(defesas[i][escolha[i][1]-1].lvl == 0);
 }
 
@@ -329,10 +329,10 @@ void listarataques(int i)
   {
     if(ataques[i][j].lvl != 0)
     {
-      printf("%d- %s\n",j+1, ataques[i][j].nome);
+      printf("[%d] %s\n",j+1, ataques[i][j].nome);
     }
     else
-      printf("%d- Habilidade bloqueada\n", j+1);
+      printf("[%d] Habilidade Bloqueada\n", j+1);
   }
   do {
     scanf("%d", &escolha[i][0]);
@@ -341,7 +341,7 @@ void listarataques(int i)
     if(escolha[i][0] < 1 || escolha[i][0] > 4)
       printf("Comando invalido\n");
     if(ataques[i][escolha[i][0]-1].lvl == 0)
-      printf("Habilidade bloqueada, escolha outra\n");
+      printf(VERMELHO_FG"X HABILIDADE BLOQUEADA X (escolha outra)\n"RESET);
   } while(escolha[i][0] < 1 || escolha[i][0] > 4 || ataques[i][escolha[i][0]-1].lvl == 0 );
 }
 
@@ -351,7 +351,7 @@ void escolhas(int i)
   if(i == 0)
   {
     do {
-      printf("\nClérigo HP: %d\n1- Suporte  2- Cura\n", grupo[0].estatos.hp);
+      printf("Curandeiro >> HP: %d\n[1] Suporte  [2] Cura\n", grupo[0].estatos.hp);
       scanf("%d", &esc);
       limparBuffer();
       //gets(lixo);
@@ -366,7 +366,7 @@ void escolhas(int i)
   if(i == 1)
   {
     do {
-      printf("\nGuerreiro HP: %d\n1- Ataque  2- Proteção\n",grupo[1].estatos.hp);
+      printf("Guerreiro >> HP: %d\n[1] Ataque  [2] Proteção\n",grupo[1].estatos.hp);
       scanf("%d", &esc);
       limparBuffer();
     } while(esc !=1 && esc!=2);
@@ -381,7 +381,7 @@ void escolhas(int i)
   {
     inicio:
     do {
-      printf("\nMago HP: %d\n1- Ataque  2- Defesa\n", grupo[2].estatos.hp);
+      printf("Mago >> HP: %d\n[1] Ataque  [2] Defesa\n", grupo[2].estatos.hp);
       scanf("%d", &esc);
       limparBuffer();
     } while(esc !=1 && esc!=2);
@@ -492,21 +492,21 @@ void inicializaItens()
   varinhas[0].duplo = 0;
   stpcpy(varinhas[0].lore , "Aclamado pelos arcanos por sua leveza, trata-se de um artefato extraordinariamente normal.");
 
-  stpcpy(varinhas[1].nome , "Varinha dos Ventos Uivantes");
+  stpcpy(varinhas[1].nome , CIANO_FG"Varinha dos Ventos Uivantes"RESET);
   varinhas[1].raridade = 1;
   varinhas[1].dano = 2;
   varinhas[1].crit = 20;
   varinhas[1].duplo = 15;
   stpcpy(varinhas[1].lore , "O portador promove um agitadíssimo baile entre as árvores, que chacoalham freneticamente.");
 
-  stpcpy(varinhas[2].nome , "Varinha de Carmichael");
+  stpcpy(varinhas[2].nome , MAGENTA_FG"Varinha de Carmichael"RESET);
   varinhas[2].raridade = 2;
   varinhas[2].dano = 0;
   varinhas[2].crit = 56.1;
   varinhas[2].duplo = 11.05;
   stpcpy(varinhas[2].lore , "Ainda é possível ouvir os gritos de Fermat ecoando pela aura dessa arma.");
 
-  stpcpy(varinhas[3].nome , "Cetro de Ritchie");
+  stpcpy(varinhas[3].nome , AMARELO_FG"Cetro de Ritchie"RESET);
   varinhas[3].raridade = 3;
   varinhas[3].dano = 10;
   varinhas[3].crit = 45;
@@ -521,21 +521,21 @@ void inicializaItens()
   espadas[0].duplo = 5;
   stpcpy(espadas[0].lore , "Feita sob medida, 100% pura e sem nenhum encantamento.");
 
-  stpcpy(espadas[1].nome , "Cimitarra de Silverfield");
+  stpcpy(espadas[1].nome , CIANO_FG"Cimitarra de Silverfield"RESET);
   espadas[1].raridade = 1;
   espadas[1].dano = 4;
   espadas[1].crit = 15;
   espadas[1].duplo = 7.5;
   stpcpy(espadas[1].lore , "Proveniente das florestas coníferas, possui adornos do raríssimo integrálio.");
 
-  stpcpy(espadas[2].nome , "Claymore de Euclides");
+  stpcpy(espadas[2].nome , MAGENTA_FG"Claymore de Euclides"RESET);
   espadas[2].raridade = 2;
   espadas[2].dano = 4;
   espadas[2].crit = 25;
   espadas[2].duplo = 11.5;
   stpcpy(espadas[2].lore , "Uma vez, perguntaram a um sábio: 'Qual é o número mais poderoso?' E ele respondeu: '2.6'.");
 
-  stpcpy(espadas[3].nome , "Katana da Recursão");
+  stpcpy(espadas[3].nome , AMARELO_FG"Katana da Recursão"RESET);
   espadas[3].raridade = 3;
   espadas[3].dano = 8;
   espadas[3].crit = 18.5;
@@ -550,21 +550,21 @@ void inicializaItens()
   artefatos[0].vida = 0;
   stpcpy(artefatos[0].lore , "Equipamento sagrado, abençoado pelo Sol.");
 
-  stpcpy(artefatos[1].nome, "Prisma Cristalino");
+  stpcpy(artefatos[1].nome, CIANO_FG"Prisma Cristalino"RESET);
   artefatos[1].raridade = 1;
   artefatos[1].cura = 1.2;
   artefatos[1].buff = 1.1;
   artefatos[1].vida = 1.05;
   stpcpy(artefatos[1].lore , "Seu formato único permite a concretização da ruína de qualquer desafortunado.");
 
-  stpcpy(artefatos[2].nome , "Orbe Abeliano");
+  stpcpy(artefatos[2].nome , MAGENTA_FG"Orbe Abeliano"RESET);
   artefatos[2].raridade = 2;
   artefatos[2].cura = 1.35;
   artefatos[2].buff = 1.4;
   artefatos[2].vida = 1.45;
   stpcpy(artefatos[2].lore , "Forjado por forças entrópicas, causa a desordem nos campos de batalha.");
 
-  stpcpy(artefatos[3].nome , "Hipercubo de Karnaugh");
+  stpcpy(artefatos[3].nome , AMARELO_FG"Hipercubo de Karnaugh"RESET);
   artefatos[3].raridade = 3;
   artefatos[3].cura = 1.6;
   artefatos[3].buff = 1.8;
@@ -607,18 +607,18 @@ void combate(INIMIGO inimigo)
 
     }
 
-    /*if(grupo[i].xp >=  grupo[i].xpmax)
-      printf("\nParabens, o grupo subiu de level \n");*/
+    if(grupo[i].xp >=  grupo[i].xpmax)
+      printf("\nParabens, o grupo subiu de level \n");
 
     if(inimigo.hp <= 0)
     {
-      printf("Você venceu a luta\n");
+      printf("O Grupo foi vitorioso !\n");
       if(inimigo.tipo == 0)
-        printf("\nO grupo ganhou 60 de XP\n");
+        printf("\n+ 60 de XP\n");
       if(inimigo.tipo == 1)
-        printf("\nO grupo ganhou 90 de XP\n");
+        printf("\n+ 90 de XP\n");
       if(inimigo.tipo == 2)
-        printf("\nO grupo ganhou 120 de XP\n");
+        printf("\n+ 120 de XP\n");
 
 
       for(int i = 0; i < 3; i++)
@@ -645,7 +645,7 @@ void combate(INIMIGO inimigo)
           grupo[i].lvl++;
           if(i == 0)
           {
-            printf("Parabéns, o grupo subiu de level. Novo level: %d\n",grupo[i].lvl);
+            printf("Parabens, o grupo subiu de level. Novo level %d\n",grupo[i].lvl);
           }
           grupo[i].xp -= grupo[i].xpmax;
           grupo[i].xpmax+=20;
@@ -677,7 +677,7 @@ void combate(INIMIGO inimigo)
       return;
     }
     else
-    printf("HP inimigo: %d\n", inimigo.hp);
+    printf("[Inimigo] >>> HP: %d\n", inimigo.hp);
     for(i = 0; i < 3;i++)
     {
       grupo[i].ataque = atktemp[i];
