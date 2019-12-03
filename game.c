@@ -89,9 +89,9 @@ PONTO pBau2 = {.cor_FG = BRANCO_FG, .cor_BG = AZUL2_BG, .carac = '&', .colisao =
 
 void animVitoria(int m){
     int cont = 0;
-    while(cont < 500){
-        for (i = 0; i < ALTURA; i++){
-            for (j = 0; j < LARGURA; j++){
+    while(cont < 10){
+        for (i = 0; i < ALTURAMAX; i++){
+            for (j = 0; j < LARGURAMAX; j++){
                 mapa[m][i][j].carac = ' ';
                 srand(clock());
                 int ale = rand() % 3;
@@ -110,6 +110,7 @@ void animVitoria(int m){
             }
         printf("\n");
         }
+        system("sleep 0.7");
         system("clear");
         system("clear");
         cont++;
@@ -126,11 +127,11 @@ void animVitoria(int m){
     system("sleep 1.0");
     printf("%s%sW \n", RESET, VERDE_FG);
     system("sleep 1.0");
-    printf("%s%sI \n", RESET, MAGENTA_FG);
+    printf("%s%sI \n", RESET, BRANCO_FG);
     system("sleep 1.0");
     printf("%s%sN \n", RESET, AZUL_FG);
     system("sleep 1.0");
-    printf("%s%s! \n", RESET, BRANCO_FG);
+    printf("%s%s! \n", RESET, MAGENTA_FG);
     system("sleep 1.0");
     exit(0);
 }
@@ -371,10 +372,9 @@ void animPortal(int xp, int yp, int m){
         }
         system("sleep 0.07");
         system("cls");
-        fflush(stdin);
-        fflush(stdin);
-    }
 
+    }
+    
 }
 
 void criarInimigo(int zi, int xi, int yi){
@@ -1050,7 +1050,7 @@ void printarMapa(int m) {
     printarStatus(m+1);
     printarBau();
     printPos();
-    animVitoria(0);
+    //animVitoria(0);
     checarCombate(m);
     checarBoss(m);
     controla(m);
