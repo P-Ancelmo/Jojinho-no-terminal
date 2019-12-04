@@ -142,15 +142,15 @@ void inicializaGrupo()
   stpcpy(grupo[1].nome, "Guerreiro");
   stpcpy(grupo[2].nome, "Mago");
   grupo[0].defesa = 7;
-  grupo[0].estatos.hp = 100;
-  grupo[0].estatos.hpmax = 40;
+  grupo[0].estatos.hp = 55;
+  grupo[0].estatos.hpmax = 55;
   grupo[1].ataque = 8;
   grupo[1].defesa = 19;
   grupo[1].estatos.hp = 200;
-  grupo[1].estatos.hpmax = 100;
+  grupo[1].estatos.hpmax = 200;
   grupo[2].ataque = 15;
   grupo[2].defesa = 7;
-  grupo[2].estatos.hp = 100;
+  grupo[2].estatos.hp = 70;
   grupo[2].estatos.hpmax = 70;
   for(int i = 0; i < 3; i++)
   {
@@ -182,6 +182,7 @@ void detalhesMapa(int k){
         for (p = 27; p < LARGURAMAX; p++)
             mapa[k][25][p] = pGrama;
         for (p = LARGURAMAX - 3; p < LARGURAMAX; p++){
+            
             mapa[k][24][p] = pGrama;
             mapa[k][25][p] = pGrama;
             mapa[k][26][p] = pGrama;
@@ -203,7 +204,8 @@ void detalhesMapa(int k){
         for (p = ALTURAMAX - 7; p <= ALTURAMAX - 5; p++){
             for (q = 20; q <= 22; q++){
                 mapa[k][p][q] = pTerra;
-            }
+
+            }        
         }
         mapa[k][ALTURAMAX - 12][21] = pTerra;
         mapa[k][2][37] = pBau1;
@@ -234,6 +236,7 @@ void detalhesMapa(int k){
             for (q = 1; q < LARGURAMAX; q = q+3)
             mapa[k][p][q] = pAgua;
         }
+        
         mapa[k][25][13] = pGelo;
         mapa[k][9][16] = pGelo;
         mapa[k][15][19] = pGelo;
@@ -537,18 +540,30 @@ void procedural(int k)
             mapa[k][i][j] = pArvore;
           if (ale > 10 && ale < 20)
             mapa[k][i][j] = pArvore2;
+        //mapa[1][4][34] = pTerra;
+        mapa[k][3][35] = pGrama;
+  //mapa[2][5][28] = pGelo;
           break;
       case 1:
           if (ale > 60 && ale < 100)
             mapa[k][i][j] = pFogo;
+            mapa[k][4][34] = pTerra;
+        //mapa[0][3][35] = pGrama;
+        //mapa[2][5][28] = pGelo;
           break;
       case 2:
           if(0)
             mapa[k][i][j] = pFogo;
+        mapa[1][4][34] = pTerra;
+  mapa[0][3][35] = pGrama;
+  mapa[2][5][28] = pGelo;
             break;
       case 3:
             if (ale < 15)
                 mapa[k][i][j] = pBuraco;
+            mapa[1][4][34] = pTerra;
+  mapa[0][3][35] = pGrama;
+  mapa[2][5][28] = pGelo;
             break;
     }
   }
@@ -565,8 +580,8 @@ void inicializarPlayer(){
 
 //funcâo do programa do André
 void printarStatus(int m){
-  printf(MAGENTAC"HP: %d/20    "RESET, eu.estatos.hp);
-  printf(MAGENTAC"XP: %.2f/200    "RESET, eu.xp);
+  printf(MAGENTAC"HP: C%d/%d G%d/%d M%d/%d "RESET, grupo[0].estatos.hp,grupo[0].estatos.hpmax,grupo[1].estatos.hp, grupo[1].estatos.hpmax,grupo[2].estatos.hp, grupo[2].estatos.hpmax);
+  printf(MAGENTAC"XP: %.f/%.2d "RESET, grupo[0].xp,grupo[0].xpmax);
   printf(MAGENTAC"Mundo %d\n"RESET, m);
 }
 
@@ -974,10 +989,10 @@ void checarBoss(int m){
 void inicializarBoss(){
     for (i = 0; i < 4; i++){
         stpcpy(boss[i].nome, "Boss");
-        boss[i].hp = 150 + i * 35;
+        boss[i].hp = 150 + (i+1) * 35;
         boss[i].tipo = 2;
-        boss[i].ataque = 20 + 7 * i;
-        boss[i].defesa = 5 + 10*  i;
+        boss[i].ataque = 50 + 7 * (i+1);
+        boss[i].defesa = 20 + 10*  (i+1);
         boss[i].vivo = 1;
         switch(i){
             case 0:
@@ -991,7 +1006,7 @@ void inicializarBoss(){
                 stpcpy(boss[i].nome, "Draconato");
                 boss[i].x = 21;
                 boss[i].y = 34;
-                
+
                 break;
             case 2:
                 boss[i].classe = 3;
@@ -1022,12 +1037,18 @@ void inicializarBoss(){
 //printa o mapa, dentro dele são chamadas as funções
 void printarMapa(int m) {
   //inicializaMapa();
+  mapa[1][4][34].colisao = 0;// = pTerra;
+  mapa[0][3][35].colisao = 0;// = pGrama;
+  mapa[2][5][28].colisao = 0;// = pGelo;
 
   while (1) {
     for(i = b; i < a; i++)
     {
       for(j = c; j < l; j++)
       {
+        mapa[1][4][34].colisao = 0;//pTerra;
+        mapa[0][3][35].colisao = 0;// pGrama;
+        mapa[2][5][28].colisao = 0;// = pGelo;
         switch (m) {
           case 0:
             portalVai(&m);
@@ -1066,6 +1087,9 @@ void printarMapa(int m) {
     inicializaPortal();
     system("clear");
     system("clear");
+    mapa[1][4][34].colisao = 0;// = pTerra;
+    mapa[0][3][35].colisao = 0;// = pGrama;
+    mapa[2][5][28].colisao = 0;// = pGelo;
   }
 }
 
@@ -1081,5 +1105,8 @@ int main()
   tile(0);
   //animPortal(eu.x, eu.y, 0);
   system("clear");
+  mapa[1][4][34] = pTerra;
+  mapa[0][3][35] = pGrama;
+  mapa[2][5][28] = pGelo;
   printarMapa(0);
 }
