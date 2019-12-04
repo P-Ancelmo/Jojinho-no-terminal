@@ -1004,7 +1004,7 @@ void inicializarBoss(){
                 stpcpy(boss[i].nome, "Leviathan");
                 boss[i].x = 1;
                 boss[i].y = 19;
-                boss[i].y+=10
+                boss[i].ataque+=10;
                 boss[i].defesa += 15;
                 break;
         }
