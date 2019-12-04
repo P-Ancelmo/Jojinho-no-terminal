@@ -389,7 +389,7 @@ void criarInimigo(int zi, int xi, int yi){
     inimigos[zi][quantInimigos[zi]].classe = 5;
     inimigos[zi][quantInimigos[zi]].ataque = 10 + 3 * zi;
     inimigos[zi][quantInimigos[zi]].defesa = 10 + 3 * zi;
-    inimigos[zi][quantInimigos[zi]].hp = 50 + 10*zi;
+    inimigos[zi][quantInimigos[zi]].hp = 90 + 15*zi;
     if(zi+1 == 1)
       stpcpy(inimigos[zi][quantInimigos[zi]].nome, "Elemental de Terra");
     if(zi+1 == 2)
@@ -974,10 +974,10 @@ void checarBoss(int m){
 void inicializarBoss(){
     for (i = 0; i < 4; i++){
         stpcpy(boss[i].nome, "Boss");
-        boss[i].hp = 100 + i * 20;
+        boss[i].hp = 150 + i * 35;
         boss[i].tipo = 2;
-        boss[i].ataque = 20 + 5 * i;
-        boss[i].defesa = 5 + i;
+        boss[i].ataque = 20 + 7 * i;
+        boss[i].defesa = 5 + 10*  i;
         boss[i].vivo = 1;
         switch(i){
             case 0:
@@ -991,6 +991,7 @@ void inicializarBoss(){
                 stpcpy(boss[i].nome, "Draconato");
                 boss[i].x = 21;
                 boss[i].y = 34;
+                
                 break;
             case 2:
                 boss[i].classe = 3;
@@ -1003,6 +1004,8 @@ void inicializarBoss(){
                 stpcpy(boss[i].nome, "Leviathan");
                 boss[i].x = 1;
                 boss[i].y = 19;
+                boss[i].y+=10
+                boss[i].defesa += 15;
                 break;
         }
     }
