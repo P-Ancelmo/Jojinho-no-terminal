@@ -607,8 +607,7 @@ void combate(INIMIGO inimigo)
 
     }
 
-    if(grupo[i].xp >=  grupo[i].xpmax)
-      printf("\nParabens, o grupo subiu de level \n");
+   
 
     if(inimigo.hp <= 0)
     {
