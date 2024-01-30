@@ -1,10 +1,10 @@
-#include "structs.h"
-#include "globais_define.h"
 //#include "funcoes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "structs.h"
+#include "globais_define.h"
 
 double proteger(INIMIGO inimigo);
 double defender(INIMIGO inimigo);
@@ -31,13 +31,8 @@ void atkInimigo(INIMIGO inimigo)
   if(escolha[1][0]==3)
     ale=1;
   tempatk = proteger(inimigo);
-  //printf("=%.2d\n", inimigo.ataque);
-  //printf("-%.2f\n", tempatk);
   tempdef = grupo[ale].defesa + (grupo[ale].defesa*defender(inimigo));
-  //printf("--%.2f\n", grupo[ale].defesa);
-  //printf("---%.2f\n", tempdef);
-  danofinal = tempatk +(tempdef/(tempdef-5));
-  //printf("%.2f\n", danofinal);
+  danofinal = tempatk *tempdef/tempdef+5;
   grupo[ale].estatos.hp -= danofinal;
   if(inimigo.classe!=3)
     printf(VERDE_CLARO_FG"[Inimigo] %s inflinge %.2f de dano ao %s \n"RESET,inimigo.nome,danofinal, grupo[ale].nome);
@@ -48,7 +43,7 @@ void atkInimigo(INIMIGO inimigo)
   printf("[Grupo] %s agora possui %d HP\n",grupo[ale].nome, grupo[ale].estatos.hp);
 }
 
-void suporte(INIMIGO *inimigo)
+void suporte()
 {
   int opc;
   if(escolha[0][0]==1)
@@ -70,7 +65,7 @@ void suporte(INIMIGO *inimigo)
   }
   if(escolha[0][0]==2)
   {
-    inimigo->ataque-=inimigo->ataque*0.2;
+    inimigo.ataque-=inimigo.ataque*0.2;
   }
   if(escolha[0][0]==3)
   {
@@ -88,7 +83,7 @@ void suporte(INIMIGO *inimigo)
     grupo[opc].defesa += grupo[opc].defesa/2;
   }
   if(escolha[0][0]==4)
-    inimigo->defesa-=inimigo->defesa/2;
+    inimigo.defesa-=inimigo.defesa/2;
   if(escolha[0][1]==1)
   {
     do
@@ -221,7 +216,7 @@ double defender(INIMIGO inimigo)
     float peso=0;
     double dado, dano = 0, danofinal = 0;
     srand(clock());
-    if((escolha[2][0] == 1 && inimigo.classe!=4) || (escolha[2][0]-1 == inimigo.classe) || (escolha[2][0]-1 == inimigo.elemento) || (escolha[2][0] == 2 && ((inimigo.classe == 5 && inimigo.elemento == 3))))
+    if((escolha[2][0] == 1 && inimigo.classe!=4) || (escolha[2][0]-1 == inimigo.classe) || (escolha[2][0]-1 == inimigo.elemento))
     {
       peso = 1.0;
     }
@@ -229,12 +224,10 @@ double defender(INIMIGO inimigo)
     {
       peso = 1.5;
     }
-    if((escolha[2][0] == 2 && ((inimigo.classe == 5 && inimigo.elemento == 2) || (inimigo.classe == 2) || (inimigo.classe == 3) || (inimigo.classe == 4))) || (escolha[2][0] == 2 && ((inimigo.classe == 5 && inimigo.elemento == 3) || (inimigo.classe == 1) || (inimigo.classe == 4))) || (escolha[2][0] == 4 && ((inimigo.classe == 5 && inimigo.elemento == 1) || (inimigo.classe == 1) || (inimigo.classe == 3) || (inimigo.classe == 4)))) //desvantagens
+    if((escolha[2][0] == 3 && ((inimigo.classe == 5 && inimigo.elemento == 3) || (inimigo.classe == 2) || (inimigo.classe == 3) || (inimigo.classe == 4))) || (escolha[2][0] == 2 && ((inimigo.classe == 5 && inimigo.elemento == 3) || (inimigo.classe == 1) || (inimigo.classe == 4))) || (escolha[2][0] == 4 && ((inimigo.classe == 5 && inimigo.elemento == 1) || (inimigo.classe == 1) || (inimigo.classe == 3) || (inimigo.classe == 4)))) //desvantagens
     {
       peso = 0.5;
     }
-
-    //printf("=>%.2f\n", peso);
 
     danofinal = grupo[2].ataque+(grupo[2].ataque*peso);
     //printf("--%.2f\n", grupo[2].ataque);
@@ -352,7 +345,7 @@ void listarataques(int i)
   } while(escolha[i][0] < 1 || escolha[i][0] > 4 || ataques[i][escolha[i][0]-1].lvl == 0 );
 }
 
-void escolhas(int i, INIMIGO *inimigo)
+void escolhas(int i)
 {
   int esc;
   if(i == 0)
@@ -368,7 +361,7 @@ void escolhas(int i, INIMIGO *inimigo)
     if(esc == 2)
       listardefesas(0);
     if(grupo[1].estatos.hp>0&&grupo[2].estatos.hp>0)
-      suporte(inimigo);
+      suporte();
   }
   if(i == 1)
   {
@@ -599,7 +592,7 @@ void combate(INIMIGO inimigo)
       escolha[i][0] = 0;
       escolha[i][1]=0;
       if(grupo[i].estatos.hp > 0)
-        escolhas(i, &inimigo);
+        escolhas(i);
     }
     //suporte();
     if(inimigo.hp > 0)
@@ -614,7 +607,7 @@ void combate(INIMIGO inimigo)
 
     }
 
-    
+   
 
     if(inimigo.hp <= 0)
     {
